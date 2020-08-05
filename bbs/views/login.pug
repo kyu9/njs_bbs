@@ -1,0 +1,19 @@
+doctype html
+head
+    meta(http-equiv='content-Type' content='text/html' charset='UTF-8')
+    meta(name='viewport' content='width=device-width' inital-scale='1')
+    link(rel='stylesheet' href='/stylesheets/css/bootstrap.css')
+    title MyPractice
+.container
+    .col-lg-4
+    .jumbotron
+        form(method='post')
+            h2(style='text-align:center') &#xB85C;&#xADF8;&#xC778; &#xD654;&#xBA74;
+            .group-form(style='text-align:center')
+                input#tuid(type='text' placeholder='아이디' name='userId')
+            .group-form(style='text-align:center')
+                input#tupw(type='password' placeholder='비밀번호' name='userPassword')
+            .group-form(style='text-align:center')
+                input(type='submit' value='로그인')
+            pre
+            a.btn.btn-primary.btn-pull(href='/' role='button') 메인으로
