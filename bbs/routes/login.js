@@ -1,12 +1,12 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express')
+let router = express.Router()
+let app = express();
+let path = require('path')
+app.set('views',path.join(__dirname,'views'));
+app.set('view engine','pug')
 
-const controller = require('../controller/login.ctrl');
-
-router.get('/', function(req, res, next) {
-    res.render('login');
+router.get('/',function(req,res){
+    res.render('login')
 })
-
-router.post('/', controller.post);
 
 module.exports = router;
