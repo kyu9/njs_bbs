@@ -24,7 +24,7 @@ head
                         .input-group
                             span.input-group-addon
                                 i.fa.fa-envelope.fa(aria-hidden='true')
-                            input#email.form-control(type='text', name='id', placeholder='Enter your ID')
+                            input#id.form-control(type='text', name='id', placeholder='Enter your ID')
                 .form-group
                     label.cols-sm-2.control-label(for='name') 이름
                     .cols-sm-10
@@ -50,8 +50,8 @@ head
                     button.btn.btn-primary.btn-lg.btn-block.login-button(type='button' onclick='enroll()') 가입하기
 script.
     function enroll(){
-        var name = document.getElementById('name').value;
         var id = document.getElementById('id').value;
+        var name = document.getElementById('name').value;
         var password = document.getElementById('password').value;
         var confirm = document.getElementById('confirm').value;
 

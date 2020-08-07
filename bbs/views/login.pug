@@ -13,7 +13,7 @@ script(src='//code.jquery.com/jquery-1.11.1.min.js')
                     .input-group(style='margin-bottom: 25px')
                         span.input-group-addon
                             i.glyphicon.glyphicon-user
-                        input#login_id.form-control(type='text', name='id', value='', placeholder='userid')
+                        input#login_id.form-control(type='text', name='id', placeholder='userid')
                     .input-group(style='margin-bottom: 25px')
                         span.input-group-addon
                             i.glyphicon.glyphicon-lock
@@ -60,7 +60,7 @@ script(src='//code.jquery.com/jquery-1.11.1.min.js')
             }
         }
         function sendLogin(url, id, pwd) {
-            var info = {'id': id, 'password': pwd};
+            var info = {'login_id': id, 'login_password': pwd};
             info = JSON.stringify(info);
             var xhr = new XMLHttpRequest();
             xhr.open('POST', url, true);
@@ -73,7 +73,8 @@ script(src='//code.jquery.com/jquery-1.11.1.min.js')
                     alert('정보가 일치하지 않습니다.')
                     return;
                 } else {
-                    window.location.href = "/";
+                    alert(id+'님 환영합니다!')
+                    window.location.href = "/posts";
                     localStorage.setItem("login", 'true')
                 }
             });

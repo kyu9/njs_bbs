@@ -10,7 +10,7 @@ router.post('/',function(req,res){
     let id = req.body.login_id;
     let pwd = req.body.login_password;
     //로그인 메소드 호출
-    login.loginFunction(id,sha256(pwd),res,req);
+    login.loginFunction(id,pwd,res,req);
 })
 
 module.exports = router;

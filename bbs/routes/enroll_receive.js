@@ -8,8 +8,9 @@ app.set('view engine','pug')
 
 router.post('/',function(req,res){
     //name,email,nickname,password,confirm
-    let info = req.body;
-    console.log(info);
+    console.log(req.body);
+    var info = req.body;
+    validation.enrollValidation(info,res);
 })
 
 module.exports = router

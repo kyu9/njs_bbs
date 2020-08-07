@@ -10,6 +10,8 @@ var usersRouter = require('./routes/users');
 var testRouter = require('./routes/test');
 var loginRouter = require('./routes/login');
 var enrollRouter = require('./routes/enroll');
+var loginreceiveRouter = require('./routes/login_receive');
+var enrollreceiveRouter = require('./routes/enroll_receive');
 
 
 var sequelize = require('./models').sequelize;
@@ -33,15 +35,9 @@ app.use('/users', usersRouter);
 app.use('/test', testRouter);
 app.use('/login', loginRouter);
 app.use('/enroll', enrollRouter);
+app.use('/login_receive', loginreceiveRouter);
+app.use('/enroll_receive', enrollreceiveRouter);
 
-
-app.post('/login_receive',function(req,res){
-  var id = req.body.login_id;
-  var pwd = req.body.login_password;
-  var responseData;
-  //로그인 메소드 호출
-  login.loginFunction(id,sha256(pwd),res,req);
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
