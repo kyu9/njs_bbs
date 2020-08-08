@@ -6,13 +6,14 @@ var logger = require('morgan');
 var sha256 = require('sha256');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var testRouter = require('./routes/test');
 var loginRouter = require('./routes/login');
 var enrollRouter = require('./routes/enroll');
 var loginreceiveRouter = require('./routes/login_receive');
 var enrollreceiveRouter = require('./routes/enroll_receive');
-
+var postRouter = require('./routes/posts');
+var writeRouter = require('./routes/write');
+var wreceiveRouter = require('./routes/write_receive');
 
 var sequelize = require('./models').sequelize;
 sequelize.sync();
@@ -31,12 +32,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/test', testRouter);
 app.use('/login', loginRouter);
 app.use('/enroll', enrollRouter);
 app.use('/login_receive', loginreceiveRouter);
 app.use('/enroll_receive', enrollreceiveRouter);
+app.use('/posts', postRouter);
+app.use('/write', writeRouter);
+app.use('/write_receive', wreceiveRouter);
 
 
 // catch 404 and forward to error handler

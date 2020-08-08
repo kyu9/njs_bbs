@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.get('/', async(req, res, next)=>{
     try{
-        res.render('posts');
+        res.render('write');
     }catch (e) {
         console.error(e);
         next(e);

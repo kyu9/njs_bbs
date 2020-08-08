@@ -1,3 +1,4 @@
+let moment = require('moment');
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('post', {
         id:{
@@ -7,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
         },
         uid:{
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        title:{
             type: DataTypes.STRING,
             allowNull: false,
         },
