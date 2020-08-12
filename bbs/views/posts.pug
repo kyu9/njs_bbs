@@ -3,6 +3,9 @@ link#custom-css(href='/stylesheets/custom_css/posts.css', rel='stylesheet')
 link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css')
 head
     h1(style='text-align:center') 게시판이라는 제목
+    p(style='text-align: center')
+        button(type='button' class='btn btn-primary' onclick="location.href='/write'") 글쓰기
+        button(type='button' class='btn btn-primary' onclick='main_alert()' style='margin-left: 8px' alert='메인으로가면 다시 로그인해야합니다!') 메인으로
 table.type09(id='List')
     thead
         tr
@@ -14,10 +17,48 @@ table.type09(id='List')
             for post in posts
                 tr
                     td= post.id
-                    td= post.title
+                    td#pt(style='cursor:hand' onclick=`location.href='/post?id=${+post.id}'`)= post.title
                     td= post.created_at
                     td= post.uid
 
-body
-    p(style='text-align: right')
-        a.btn.btn-primary.btn-pull(href='/write' role='button') 글쓰기
+
+script.
+    //var axios = require('axios')
+    function main_alert(){
+        var ask = confirm('메인으로 가게되면 다시 로그인하셔야합니다!');
+        if(ask === true){
+            location.replace('/')
+        }else{
+            return;
+        }
+    }
+
+    function loadFunction(){
+        var curid = document.getElementById('pt').innerText
+        console.log(post.title)
+        /*
+        axios.post('/post', {
+
+            curid : 'curid'
+
+        })
+            .then(response => {
+                console.log(response)
+            })
+            .catch(response => {
+                console.log(response)
+            });
+            */
+
+
+        let data = {'curid': curid}
+        data = JSON.stringify(data);
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://localhost:3000/post', true);
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.send(data);
+        xhr.addEventListener('load', function () {location.replace('http://localhost:3000/post');})
+
+    }
+
+

@@ -1,0 +1,26 @@
+link(rel='stylesheet', href='stylesheets/css/bootstrap.css')
+link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css')
+div(style='margin-left:3%')
+    div(style='text-align: left; margin-top:3%; height: 50%')
+        div(style='padding: 8px')
+            p 제목:
+            p= curpost.title
+            p 글쓴이:
+            p= curpost.uid
+        div(style='padding: 0 8px 8px')
+            p 내용:
+            p= curpost.content
+    hr
+    div
+        //for comment in comments
+        p 댓글글쓴이 :
+        p 댓글내용 :
+        hr
+
+
+    div
+        textarea.textarea#content(ng-model='text2', placeholder='댓글내용', style='width: 80%; height: 80px;')
+    div
+        input#uid(type='text', name='id', placeholder='아이디')
+        input#password(type='password', name='password', placeholder='비밀번호')
+        button(type="button" class='btn btn-primary' style='align:right;') 댓글 쓰기

@@ -11,9 +11,10 @@ var loginRouter = require('./routes/login');
 var enrollRouter = require('./routes/enroll');
 var loginreceiveRouter = require('./routes/login_receive');
 var enrollreceiveRouter = require('./routes/enroll_receive');
-var postRouter = require('./routes/posts');
+var postsRouter = require('./routes/posts');
 var writeRouter = require('./routes/write');
 var wreceiveRouter = require('./routes/write_receive');
+var postRouter = require('./routes/post');
 
 var sequelize = require('./models').sequelize;
 sequelize.sync();
@@ -27,7 +28,7 @@ app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -37,9 +38,10 @@ app.use('/login', loginRouter);
 app.use('/enroll', enrollRouter);
 app.use('/login_receive', loginreceiveRouter);
 app.use('/enroll_receive', enrollreceiveRouter);
-app.use('/posts', postRouter);
+app.use('/posts', postsRouter);
 app.use('/write', writeRouter);
 app.use('/write_receive', wreceiveRouter);
+app.use('/post',postRouter);
 
 
 // catch 404 and forward to error handler

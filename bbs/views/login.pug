@@ -69,13 +69,16 @@ script(src='//code.jquery.com/jquery-1.11.1.min.js')
 
             xhr.addEventListener('load', function () {
                 var result = JSON.parse(xhr.responseText);
-                if (result.result != 'ok') {
-                    alert('정보가 일치하지 않습니다.')
+                if (result.result === 'fail') {
+                    alert('존재하지 않는 아이디이거나 비밀번호가 틀렸습니다!')
                     return;
-                } else {
-                    alert(id+'님 환영합니다!')
+                } else if(result.result === 'ok') {
+                    alert(id + '님 환영합니다!')
                     window.location.href = "/posts";
-                    localStorage.setItem("login", 'true')
+                    localStorage.setItem("login", 'true');
+                } else if(result.result === 'noun'){
+                    alert('아이디를 입력하세요!')
+                    return;
                 }
             });
         }

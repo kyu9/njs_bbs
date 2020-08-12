@@ -1,4 +1,4 @@
-link(rel='stylesheet', href='css/bootstrap.css')
+link(rel='stylesheet', href='stylesheets/css/bootstrap.css')
 link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css')
 ons-page
     ons-toolbar
@@ -10,8 +10,11 @@ ons-page
             pre
             input#uid(type='text', name='id', placeholder='아이디')
             input#password(type='password', name='password', placeholder='비밀번호')
-        section(style='padding: 0 8px 8px')
-            button(type="button" class='btn btn-primary' onclick='submitFunction()') Submit
+
+        div(style='padding: 0 8px 8px')
+            button(type="button" class='btn btn-primary' onclick='submitFunction()') 글 쓰기
+        div(style='padding: 0 8px 8px')
+            button(type='button' class='btn btn-primary' onclick="location.href='/posts'") 게시판으로 돌아가기
 
 script.
     var title = document.getElementById('title');
@@ -40,3 +43,4 @@ script.
             }
         })
     }
+
