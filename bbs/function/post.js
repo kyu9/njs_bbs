@@ -1,6 +1,5 @@
 let models = require('../models');
 
-
 const writePost = (...args) => {
     let  responseData
     models.user.findOne({
@@ -42,5 +41,15 @@ const writePost = (...args) => {
         })
 }
 
+function findPost(id){
+    models.post.findOne({
+        where:{
+            id: id
+        }
+    })
+}
+
+exports.findPost = findPost;
 exports.writePost = writePost;
+
 

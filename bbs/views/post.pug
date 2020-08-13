@@ -4,12 +4,12 @@ div(style='margin-left:3%')
     div(style='text-align: left; margin-top:3%; height: 50%')
         div(style='padding: 8px')
             p 제목:
-            p= curpost.title
+            p#curtitle
             p 글쓴이:
-            p= curpost.uid
-        div(style='padding: 0 8px 8px')
             p 내용:
-            p= curpost.content
+
+            div(style='padding: 0 8px 8px')
+                button(type="button" class='btn btn-primary' onclick='curpost()') test
     hr
     div
         //for comment in comments
@@ -24,3 +24,47 @@ div(style='margin-left:3%')
         input#uid(type='text', name='id', placeholder='아이디')
         input#password(type='password', name='password', placeholder='비밀번호')
         button(type="button" class='btn btn-primary' style='align:right;') 댓글 쓰기
+script.
+
+
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+
+
+    function curpost(){
+        var tmp = getParameterByName('pid');
+        return tmp;
+
+
+
+        /*
+        const axios = require('axios');
+        axios.get('/post', {
+            params: {
+                pid: getParameterByName(pid)
+            }
+        })
+            .then(function () {
+                var cpost = models.post.findOne({
+                    where: {
+                        id: getParameterByName(pid)
+                    }
+                })
+                console.log(cpost.title)
+            })
+            .catch(function () {
+                console.log('error')
+            })
+            .then(function () {
+                console.log('0000000000')
+            })
+
+         */
+    }
+
+

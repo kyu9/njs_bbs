@@ -17,13 +17,11 @@ table.type09(id='List')
             for post in posts
                 tr
                     td= post.id
-                    td#pt(style='cursor:hand' onclick=`location.href='/post?id=${+post.id}'`)= post.title
+                    td#pt(style='cursor:hand' onclick=`load_post(${post.id})`)= post.title
                     td= post.created_at
                     td= post.uid
 
-
 script.
-    //var axios = require('axios')
     function main_alert(){
         var ask = confirm('메인으로 가게되면 다시 로그인하셔야합니다!');
         if(ask === true){
@@ -33,28 +31,31 @@ script.
         }
     }
 
-    function loadFunction(){
-        var curid = document.getElementById('pt').innerText
-        console.log(post.title)
+    function load_post(id){
+        //document.location.href='post?pid='+id;
+        //var title = document.getElementById('pt').innerText
+
         /*
-        axios.post('/post', {
-
-            curid : 'curid'
-
+        const axios = require('axios');
+        axios.get('/post', {
+            params: {
+                pid: id
+                }
         })
             .then(response => {
-                console.log(response)
+                document.location.href='post?pid='+id;
             })
             .catch(response => {
                 console.log(response)
-            });
-            */
+             });
+
+        */
 
 
-        let data = {'curid': curid}
+        let data = {'pid': id}
         data = JSON.stringify(data);
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'http://localhost:3000/post', true);
+        xhr.open('POST', 'http://localhost:3000/post_receive', true);
         xhr.setRequestHeader('Content-type', 'application/json');
         xhr.send(data);
         xhr.addEventListener('load', function () {location.replace('http://localhost:3000/post');})

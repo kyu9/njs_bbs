@@ -1,27 +1,13 @@
 var express = require('express')
-let models = require('../models');
-var axios = require('axios')
 let router = express.Router()
+let post = require('../function/post')
 
 
-router.get('/', async(req, res, next) => {
-    try{
-        //let id = axios.post('https://localhost:3000/post/curid')
-        let id = req.body.id;
+router.get('/',function(req,res){
 
-        console.log('HERE!!!!!!!!!!')
-        console.log(id);
-        var curpost = await models.post.findOne({
-            where:{
-                id: id
-            }
-        })
-        res.render('post',{curpost:curpost});
-    }catch(e){
-        console.error(e);
-        next(e);
-    }
+    res.render('post')
 })
+
 
 
 module.exports = router;
