@@ -1,4 +1,5 @@
-let models = require('../models');
+var models = require('../models');
+
 
 const writePost = (...args) => {
     let  responseData
@@ -41,14 +42,51 @@ const writePost = (...args) => {
         })
 }
 
-function findPost(id){
+function findTitle(id){
     models.post.findOne({
         where:{
             id: id
         }
     })
+        .then((result)=>{
+            return result.title;
+        })
 }
 
+function findPost(id){
+    let responseData
+    models.post.findOne({
+        where:{
+            id: id
+        }
+    })
+        .then((result)=>{
+            console.log(result);
+            var content = result.content
+            var title = result.title
+            models.user.findOne({
+                where:{
+                    id: result.uid
+                }
+            })
+                .then((result)=>{
+                    var writer = result.name
+                    console.log(content+" : "+title+" : "+writer)
+                    responseData = {'title': title, 'writer' : writer, 'content' : content};
+                    return responseData;
+                })
+                .catch((result)=>{
+                    console.error(result);
+                })
+
+        })
+        .catch((err)=>{
+            console.error(err);
+            next(err);
+        })
+}
+
+exports.findTitle = findTitle;
 exports.findPost = findPost;
 exports.writePost = writePost;
 

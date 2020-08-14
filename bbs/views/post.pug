@@ -3,13 +3,12 @@ link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-se
 div(style='margin-left:3%')
     div(style='text-align: left; margin-top:3%; height: 50%')
         div(style='padding: 8px')
-            p 제목:
-            p#curtitle
-            p 글쓴이:
-            p 내용:
+            p 제목: #{title}
+            p 글쓴이: #{writer}
+            p 내용: #{content}
 
             div(style='padding: 0 8px 8px')
-                button(type="button" class='btn btn-primary' onclick='curpost()') test
+                button(type="button" class='btn btn-primary' onclick='curpost()') GoPosts
     hr
     div
         //for comment in comments
@@ -25,46 +24,23 @@ div(style='margin-left:3%')
         input#password(type='password', name='password', placeholder='비밀번호')
         button(type="button" class='btn btn-primary' style='align:right;') 댓글 쓰기
 script.
-
-
-    function getParameterByName(name) {
-        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
-        return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    function getParam(sname) {
+        var params = location.search.substr(location.search.indexOf("?") + 1);
+        var sval = "";
+        params = params.split("&");
+        for (var i = 0; i < params.length; i++) {
+            temp = params[i].split("=");
+            if ([temp[0]] == sname) {sval = temp[1];}
+        }
+        return sval;
     }
-
-
 
     function curpost(){
-        var tmp = getParameterByName('pid');
-        return tmp;
-
-
-
-        /*
-        const axios = require('axios');
-        axios.get('/post', {
-            params: {
-                pid: getParameterByName(pid)
-            }
-        })
-            .then(function () {
-                var cpost = models.post.findOne({
-                    where: {
-                        id: getParameterByName(pid)
-                    }
-                })
-                console.log(cpost.title)
-            })
-            .catch(function () {
-                console.log('error')
-            })
-            .then(function () {
-                console.log('0000000000')
-            })
-
-         */
+        location.href='/posts'
     }
+
+    const myfn = require('../function/post');
+
+
 
 

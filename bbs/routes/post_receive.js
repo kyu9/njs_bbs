@@ -1,10 +1,16 @@
 let express = require('express')
 let router = express.Router()
+let post = require('../function/post')
+let models = require('../models');
 
-router.post('/',function(req,res){
-    let id = req.body.login_id;
-    let pwd = req.body.login_password;
-    login.loginFunction(id,pwd,res,req);
+router.post('/',async(req,res,next)=>{
+        try{
+            await post.findPost(req.body.pid);
+
+        } catch (e) {
+            console.error(e);
+            next(e)
+        }
 })
 
 module.exports = router;

@@ -16,8 +16,8 @@ table.type09(id='List')
     tbody#tbody
             for post in posts
                 tr
-                    td= post.id
-                    td#pt(style='cursor:hand' onclick=`load_post(${post.id})`)= post.title
+                    td#pi= post.id
+                    td#pt(style='cursor:hand' onclick=`send_post(${post.id})`)= post.title
                     td= post.created_at
                     td= post.uid
 
@@ -31,9 +31,9 @@ script.
         }
     }
 
-    function load_post(id){
-        //document.location.href='post?pid='+id;
-        //var title = document.getElementById('pt').innerText
+    function send_post(id){
+        //let idv = document.getElementById('pi').innerHTML
+        document.location.href='post?pid='+id;
 
         /*
         const axios = require('axios');
@@ -51,15 +51,18 @@ script.
 
         */
 
-
+        /*
         let data = {'pid': id}
         data = JSON.stringify(data);
         let xhr = new XMLHttpRequest();
         xhr.open('POST', 'http://localhost:3000/post_receive', true);
         xhr.setRequestHeader('Content-type', 'application/json');
         xhr.send(data);
-        xhr.addEventListener('load', function () {location.replace('http://localhost:3000/post');})
 
+        xhr.addEventListener('load', function () {
+            var result = JSON.parse(xhr.responseText);
+        })
+        */
     }
 
 
