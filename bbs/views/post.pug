@@ -8,21 +8,22 @@ div(style='margin-left:3%')
             p 내용: #{content}
 
             div(style='padding: 0 8px 8px')
-                button(type="button" class='btn btn-primary' onclick='curpost()') GoPosts
+                button(type="button" class='btn btn-primary' onclick="location.href='/posts'") GoPosts
     hr
     div
-        //for comment in comments
-        p 댓글글쓴이 :
-        p 댓글내용 :
-        hr
-
+        for comment in comments
+            p 작성자: #{comment.uid}
+            p 댓글내용: #{comment.content}
+            p 작성시간: #{comment.created_at}
+            hr
 
     div
         textarea.textarea#content(ng-model='text2', placeholder='댓글내용', style='width: 80%; height: 80px;')
     div
         input#uid(type='text', name='id', placeholder='아이디')
         input#password(type='password', name='password', placeholder='비밀번호')
-        button(type="button" class='btn btn-primary' style='align:right;') 댓글 쓰기
+        button(type="button" class='btn btn-primary' onclick='comment()') 댓글 쓰기
+
 script.
     function getParam(sname) {
         var params = location.search.substr(location.search.indexOf("?") + 1);
@@ -30,16 +31,67 @@ script.
         params = params.split("&");
         for (var i = 0; i < params.length; i++) {
             temp = params[i].split("=");
-            if ([temp[0]] == sname) {sval = temp[1];}
+            if ([temp[0]] == sname) {
+                sval = temp[1];
+            }
         }
         return sval;
     }
+    var pid = getParam('pid');
+    var content = document.getElementById('content');
+    var uid = document.getElementById('uid');
+    var password = document.getElementById('password');
+    var url = 'http://localhost:3000/comment';
+    function comment() {
+        /*
+        //ajax방식을 이용했음 -> 성공!
+        var data = {'pid': pid, 'content': content.value, 'uid': uid.value, 'password':password.value};
+        data = JSON.stringify(data);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.send(data);
+        xhr.addEventListener('load', function(){
+            var result = JSON.parse(xhr.responseText);
+            if(result.result == 'ok'){
+                alert('작성완료!')
+                location.replace(window.location.href)
+            }else if(result.result == 'no'){
+                alert('비밀번호를 확인해주세요!')
+                return
+            }else if(result.result == 'none'){
+                alert('존재하지 않는 아이디입니다!')
+            }
+        })
+        */
+        //밑에부터는 axios방식을 사용한건데... 안됨 왜지..
+        /*
+        const axios = require('axios').default
+        axios.post('/comment', {
+            pid: pid.value,
+            content: content.value,
+            uid: uid.value,
+            password: password.value
+        })
+            .then(function (response) {
+                var result = JSON.parse(response);
+                if(result.result == 'ok'){
+                    alert('댓글 작성완료!')
+                    location.replace(window.location.href)
+                }else if(result.result == 'no'){
+                    alert('비밀번호를 확인해주세요!')
+                    return
+                }else if(result.result == 'none'){
+                    alert('존재하지 않는 아이디입니다!')
+                    return
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
 
-    function curpost(){
-        location.href='/posts'
+         */
     }
-
-    const myfn = require('../function/post');
 
 
 

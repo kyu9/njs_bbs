@@ -42,52 +42,45 @@ const writePost = (...args) => {
         })
 }
 
-function findTitle(id){
-    models.post.findOne({
-        where:{
-            id: id
-        }
-    })
-        .then((result)=>{
-            return result.title;
-        })
-}
-
-function findPost(id){
+const writeComment = (...args) => {
     let responseData
-    models.post.findOne({
+    models.user.findOne({
         where:{
-            id: id
+            id: args[2]
         }
     })
-        .then((result)=>{
-            console.log(result);
-            var content = result.content
-            var title = result.title
-            models.user.findOne({
-                where:{
-                    id: result.uid
-                }
-            })
-                .then((result)=>{
-                    var writer = result.name
-                    console.log(content+" : "+title+" : "+writer)
-                    responseData = {'title': title, 'writer' : writer, 'content' : content};
-                    return responseData;
+        .then((user)=>{
+            if(user.dataValues.password === args[3]){
+                responseData = {'result': 'ok'};
+                models.comment.create({
+                    pid: args[0],
+                    content: args[1],
+                    uid: args[2]
+                }).then(function(result){
+                    args[4](responseData)
                 })
-                .catch((result)=>{
-                    console.error(result);
-                })
-
+            }else{
+                responseData = {'result' : 'no'};
+                models.user.findOne({
+                    where:{ud:args[2]}
+                }).then(function(result){
+                    console.log(user.dataValues.id+'의 비밀번호가 틀렸습니다!')
+                    args[4](responseData)
+                });
+            }
         })
         .catch((err)=>{
-            console.error(err);
-            next(err);
+            responseData = {'result': 'none'};
+            models.user.findAll({
+                where:{id: args[2]}
+            }).then(function(result){
+                console.log('존재하지 않는 아이디입니다!')
+                args[4](responseData)
+            })
         })
 }
 
-exports.findTitle = findTitle;
-exports.findPost = findPost;
+exports.writeComment = writeComment;
 exports.writePost = writePost;
 
 

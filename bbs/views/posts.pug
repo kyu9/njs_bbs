@@ -16,8 +16,8 @@ table.type09(id='List')
     tbody#tbody
             for post in posts
                 tr
-                    td#pi= post.id
-                    td#pt(style='cursor:hand' onclick=`send_post(${post.id})`)= post.title
+                    td= post.id
+                    td(style='cursor:hand' onclick=`send_post(${post.id})`)= post.title
                     td= post.created_at
                     td= post.uid
 
@@ -32,37 +32,7 @@ script.
     }
 
     function send_post(id){
-        //let idv = document.getElementById('pi').innerHTML
         document.location.href='post?pid='+id;
-
-        /*
-        const axios = require('axios');
-        axios.get('/post', {
-            params: {
-                pid: id
-                }
-        })
-            .then(response => {
-                document.location.href='post?pid='+id;
-            })
-            .catch(response => {
-                console.log(response)
-             });
-
-        */
-
-        /*
-        let data = {'pid': id}
-        data = JSON.stringify(data);
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://localhost:3000/post_receive', true);
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.send(data);
-
-        xhr.addEventListener('load', function () {
-            var result = JSON.parse(xhr.responseText);
-        })
-        */
     }
 
 
