@@ -24,7 +24,6 @@ router.get('/',function(req,res){
                     .then((result)=>{
                         res.render('post', {title:title, content: content, writer: writer, comments: result})
                     })
-
             }
         })
         .catch(function(err){

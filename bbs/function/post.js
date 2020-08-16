@@ -62,7 +62,7 @@ const writeComment = (...args) => {
             }else{
                 responseData = {'result' : 'no'};
                 models.user.findOne({
-                    where:{ud:args[2]}
+                    where:{id:args[2]}
                 }).then(function(result){
                     console.log(user.dataValues.id+'의 비밀번호가 틀렸습니다!')
                     args[4](responseData)

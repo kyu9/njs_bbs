@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 module.exports = (sequelize, DataTypes)=>{
     return sequelize.define('comment', {
         id:{
@@ -22,6 +24,9 @@ module.exports = (sequelize, DataTypes)=>{
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: sequelize.literal('now()'),
+            get() {
+                return moment(this.getDataValue('created_at')).format('YYYY/MM/DD h:mm:ss a');
+            }
         }
     },{
         timestamps: false,
