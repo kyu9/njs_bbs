@@ -11,11 +11,17 @@ div(style='margin-left:3%; margin-right:3%')
             div(style='padding: 0 8px 8px; text-align:right')
                 button(type="button" class='btn btn-primary' onclick="location.href='/posts'") 게시판으로 돌아가기
     hr
-    div
+    div(style='margin:0px; padding:0px')
         for comment in comments
-            p 댓글내용: #{comment.content}
-            p 작성자: #{comment.uid} | 작성시간: #{comment.created_at}
+            div(class='row' style='display:flex; align-items:center;  margin:0px;')
+                div#id(class='col-1' style='border-right: 1px solid; cursor:hand' onclick='profile("profile","회원정보",300,400)')
+                    p(style='text-align:center') #{comment.uid}
+                div(class='col-9')
+                    p #{comment.content}
+                div(class='col-2')
+                    p #{comment.created_at}
             hr
+
 
     div
         textarea.textarea#content(ng-model='text2', placeholder='댓글내용', style='width: 80%; height: 80px; margin-bottom:5px')
@@ -25,6 +31,22 @@ div(style='margin-left:3%; margin-right:3%')
         button(type="button" class='btn btn-primary' onclick='comment()' style='text-align: right') 댓글 쓰기
 
 script.
+    document.body.id=0;
+    function profile(url, title, w, h){
+        var cuid = document.getElementById('id').innerText;
+        var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+        var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+        var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+        var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+        var top = ((height / 2) - (h / 2)) + dualScreenTop;
+        var myurl = url + '?uid=' + cuid
+        var newWindow = window.open(myurl, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left, 'pop');
+        if (window.focus) {
+            newWindow.focus();
+        }
+
+    }
     function getParam(sname) {
         var params = location.search.substr(location.search.indexOf("?") + 1);
         var sval = "";
@@ -41,7 +63,6 @@ script.
     var content = document.getElementById('content');
     var uid = document.getElementById('uid');
     var password = document.getElementById('password');
-    var url = 'http://localhost:3000/comment';
     function comment() {
         /*
         //ajax방식을 이용했음 -> 성공!
@@ -96,7 +117,7 @@ script.
             uid: uid.value,
             password: password.value
         };
-        let response = fetch(url,{
+        let response = fetch('/comment',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'

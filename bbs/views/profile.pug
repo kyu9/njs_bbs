@@ -1,0 +1,50 @@
+doctype html
+link#bootstrap-css(href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css', rel='stylesheet')
+script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js')
+script(src='//code.jquery.com/jquery-1.11.1.min.js')
+head
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css')
+    // Google Fonts
+    link(href='https://fonts.googleapis.com/css?family=Passion+One', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Oxygen', rel='stylesheet', type='text/css')
+    title 회원정보
+.container
+    .row.main
+        .panel-heading
+            .panel-title.text-center
+                h1.title 회원정보
+                hr
+                p 선택하신 회원의 아이디는
+                p #{user.id}
+                p 선택하신 회원의 이름은
+                p #{user.name}
+
+script(type='text/javascript', src='stylesheets/js/bootstrap.js')
+//script.
+    function getParam(sname) {
+        var params = location.search.substr(location.search.indexOf("?") + 1);
+        var sval = "";
+        params = params.split("&");
+        for (var i = 0; i < params.length; i++) {
+            var temp = params[i].split("=");
+            if ([temp[0]] == sname) {
+                sval = temp[1];
+            }
+        }
+        return sval;
+    }
+    var uid = getParam('uid');
+    var url = '/profile_receive'
+    function abc(){
+        let data = {
+            uid: uid
+        };
+        let response = fetch(url,{
+            method: 'POST',
+            headers: {
+                'Content-Tpye': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(data)
+        })
+    }

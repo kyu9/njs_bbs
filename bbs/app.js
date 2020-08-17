@@ -17,6 +17,8 @@ var wreceiveRouter = require('./routes/write_receive');
 var postRouter = require('./routes/post');
 var postreceiveRouter = require('./routes/post_receive');
 var commentRouter = require('./routes/comment');
+var profileRouter = require('./routes/profile');
+var proReceiveRouter = require('./routes/profile_receive');
 
 var sequelize = require('./models').sequelize;
 sequelize.sync();
@@ -46,7 +48,8 @@ app.use('/write_receive', wreceiveRouter);
 app.use('/post',postRouter);
 app.use('/post_receive', postreceiveRouter);
 app.use('/comment', commentRouter);
-
+app.use('/profile', profileRouter);
+app.use('/profile_receive', proReceiveRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
