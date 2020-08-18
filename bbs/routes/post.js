@@ -1,10 +1,6 @@
 var express = require('express')
 let router = express.Router()
 let models = require('../models')
-var mysql_dbc = require('../config/database')();
-var connection = mysql_dbc.init();
-
-mysql_dbc.test_open(connection);
 
 router.get('/',function(req,res){
     models.post.findOne({
@@ -18,11 +14,14 @@ router.get('/',function(req,res){
             var content = result.content;
             var writer = result.uid;
             if(title!=null){
-                const comments = models.comment.findAll({
+                models.comment.findAll({
                     where:{pid: post}
                 })
                     .then((result)=>{
                         res.render('post', {title:title, content: content, writer: writer, comments: result})
+                    })
+                    .catch((err)=>{
+                        console.log('게시물이없습니다..!')
                     })
             }
         })

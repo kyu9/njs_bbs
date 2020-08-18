@@ -3,25 +3,23 @@ link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-se
 div(style='margin-left:3%; margin-right:3%')
     div(style='text-align: left; margin-top:3%; height: 50%')
         div(style='padding: 8px; border: solid 1px red')
-            p(style='font-size:18px; margin:0px;') 제목: #{title}
-            p(style='font-size:15px; margin:0px; text-align:right') 글쓴이: #{writer}
+            p(style='font-size:18px; margin:0px;') #{title}
+            p(style='font-size:15px; margin:0px; text-align:right') #{writer}
             hr(style='border: solid 1px')
             p(style='height:50%; weight:100%') #{content}
-
             div(style='padding: 0 8px 8px; text-align:right')
                 button(type="button" class='btn btn-primary' onclick="location.href='/posts'") 게시판으로 돌아가기
     hr
     div(style='margin:0px; padding:0px')
         for comment in comments
             div(class='row' style='display:flex; align-items:center;  margin:0px;')
-                div#id(class='col-1' style='border-right: 1px solid; cursor:hand' onclick='profile("profile","회원정보",300,400)')
-                    p(style='text-align:center') #{comment.uid}
+                div(class='col-1' style='border-right: 1px solid; cursor:hand' onclick='profile("profile","회원정보",300,400)')
+                    p#cid(style='text-align:center') #{comment.userid}
                 div(class='col-9')
                     p #{comment.content}
                 div(class='col-2')
                     p #{comment.created_at}
             hr
-
 
     div
         textarea.textarea#content(ng-model='text2', placeholder='댓글내용', style='width: 80%; height: 80px; margin-bottom:5px')
@@ -31,9 +29,9 @@ div(style='margin-left:3%; margin-right:3%')
         button(type="button" class='btn btn-primary' onclick='comment()' style='text-align: right') 댓글 쓰기
 
 script.
-    document.body.id=0;
     function profile(url, title, w, h){
-        var cuid = document.getElementById('id').innerText;
+        var cuid = document.getElementById('cid').innerText;
+        alert(cuid);
         var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
         var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
         var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
@@ -41,7 +39,7 @@ script.
         var left = ((width / 2) - (w / 2)) + dualScreenLeft;
         var top = ((height / 2) - (h / 2)) + dualScreenTop;
         var myurl = url + '?uid=' + cuid
-        var newWindow = window.open(myurl, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left, 'pop');
+        var newWindow = window.open(myurl, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
         if (window.focus) {
             newWindow.focus();
         }

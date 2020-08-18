@@ -15,8 +15,9 @@ const writePost = (...args) => {
                     title: args[0],
                     content: args[1],
                     uid: args[2],
+                    file: args[4],
                 }).then(function(result){
-                    args[4](responseData)
+                    args[5](responseData)
                 });
             }else{
                 responseData = {'result': 'no'};
@@ -24,7 +25,7 @@ const writePost = (...args) => {
                     where:{id: args[2]}
                 }).then(function(result){
                     console.log(user.dataValues.id+'의 비밀번호가 틀렸습니다.')
-                    args[4](responseData)
+                    args[5](responseData)
                 });
             }
 
@@ -37,7 +38,7 @@ const writePost = (...args) => {
                 where:{id: args[2]}
             }).then(function(result){
                 console.log('아이디가 없습니다!')
-                args[4](responseData)
+                args[5](responseData)
             })
         })
 }

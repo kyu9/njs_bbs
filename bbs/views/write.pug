@@ -8,6 +8,8 @@ ons-page
         section(style='padding: 0 8px 8px')
             textarea.textarea#content(ng-model='text2', placeholder='내용', style='width: 80%; height: 400px;')
             pre
+            div(style='text-align:right')
+                input#file(type='file', name='file')
             input#uid(type='text', name='id', placeholder='아이디')
             input#password(type='password', name='password', placeholder='비밀번호')
 
@@ -22,8 +24,11 @@ script.
     var uid = document.getElementById('uid');
     var password = document.getElementById('password');
     var url = 'http://localhost:3000/write_receive';
+
     function submitFunction() {
         var data = {'title': title.value, 'content': content.value, 'uid': uid.value, 'password':password.value};
+        var formData = new FormData();
+        formData.append('file', document.getElementById('file').files[0]);
         data = JSON.stringify(data);
         var xhr = new XMLHttpRequest();
         xhr.open('POST', url, true);
@@ -41,6 +46,7 @@ script.
             }else if(result.result == 'none'){
                 alert('아이디가 존재하지 않습니다!')
             }
-        })
+        });
+        xhr.send(formData);
     }
 
