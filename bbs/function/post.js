@@ -28,8 +28,6 @@ const writePost = (...args) => {
                     args[5](responseData)
                 });
             }
-
-
         })
         .catch(function(err){
             responseData = {'result': 'none'};
