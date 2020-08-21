@@ -14,11 +14,11 @@ var enrollreceiveRouter = require('./routes/enroll_receive');
 var postsRouter = require('./routes/posts');
 var writeRouter = require('./routes/write');
 var wreceiveRouter = require('./routes/write_receive');
+var wreceiveFileRouter = require('./routes/write_receive_file');
 var postRouter = require('./routes/post');
 var postreceiveRouter = require('./routes/post_receive');
 var commentRouter = require('./routes/comment');
 var profileRouter = require('./routes/profile');
-var proReceiveRouter = require('./routes/profile_receive');
 
 var sequelize = require('./models').sequelize;
 sequelize.sync();
@@ -35,7 +35,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+//외부에서도 그림파일에 접속할수 있도록!
+app.use('/upload', express.static('upload'));
 
 app.use('/', indexRouter);
 app.use('/test', testRouter);
@@ -46,11 +47,11 @@ app.use('/enroll_receive', enrollreceiveRouter);
 app.use('/posts', postsRouter);
 app.use('/write', writeRouter);
 app.use('/write_receive', wreceiveRouter);
+app.use('/write_receive_file', wreceiveFileRouter);
 app.use('/post',postRouter);
 app.use('/post_receive', postreceiveRouter);
 app.use('/comment', commentRouter);
 app.use('/profile', profileRouter);
-app.use('/profile_receive', proReceiveRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

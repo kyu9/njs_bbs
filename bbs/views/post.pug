@@ -6,45 +6,48 @@ div(style='margin-left:3%; margin-right:3%')
             p(style='font-size:18px; margin:0px;') #{title}
             p(style='font-size:15px; margin:0px; text-align:right') #{writer}
             hr(style='border: solid 1px')
-            p(style='height:50%; weight:100%') #{content}
+            if(img != null)
+                img(style='height:30%; weight:100%' src=`/upload/${img}`)
+            p(style='height:30%; weight:100%') #{content}
             div(style='padding: 0 8px 8px; text-align:right')
                 button(type="button" class='btn btn-primary' onclick="location.href='/posts'") 게시판으로 돌아가기
     hr
     div(style='margin:0px; padding:0px')
+        -var count = 0
         for comment in comments
             div(class='row' style='display:flex; align-items:center;  margin:0px;')
-                div(class='col-1' style='border-right: 1px solid; cursor:hand' onclick='profile("profile","회원정보",300,400)')
-                    p#cid(style='text-align:center') #{comment.userid}
+                div(class='col-1' style='border-right: 1px solid;')
+                    p(style="text-align:center; cursor:hand" onclick=`profile(${count}, "profile", "회원정보", 300, 400)` name='cuid') #{comment.userid}
                 div(class='col-9')
                     p #{comment.content}
                 div(class='col-2')
                     p #{comment.created_at}
+                - count++
             hr
 
     div
         textarea.textarea#content(ng-model='text2', placeholder='댓글내용', style='width: 80%; height: 80px; margin-bottom:5px')
     div(style='padding-bottom:3%')
-        input#uid(type='text', name='id', placeholder='아이디', style='margin-right:5px')
-        input#password(type='password', name='password', placeholder='비밀번호', style='margin-right: 5px')
+        input#cuid(type='text' name='cuid' placeholder='아이디' style='margin-right:5px')
+        input#cpassword(type='password' name='cpassword' placeholder='비밀번호' style='margin-right: 5px')
         button(type="button" class='btn btn-primary' onclick='comment()' style='text-align: right') 댓글 쓰기
 
 script.
-    function profile(url, title, w, h){
-        var cuid = document.getElementById('cid').innerText;
-        alert(cuid);
+    function profile(count, url, title, w, h){
+        let tmp = document.getElementsByName('cuid')[count].innerText;
         var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
         var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
         var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
         var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
         var left = ((width / 2) - (w / 2)) + dualScreenLeft;
         var top = ((height / 2) - (h / 2)) + dualScreenTop;
-        var myurl = url + '?uid=' + cuid
+        var myurl = url + '?uid=' + tmp
         var newWindow = window.open(myurl, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
         if (window.focus) {
             newWindow.focus();
         }
-
     }
+
     function getParam(sname) {
         var params = location.search.substr(location.search.indexOf("?") + 1);
         var sval = "";
@@ -57,64 +60,14 @@ script.
         }
         return sval;
     }
-    var pid = getParam('pid');
-    var content = document.getElementById('content');
-    var uid = document.getElementById('uid');
-    var password = document.getElementById('password');
+
     function comment() {
-        /*
-        //ajax방식을 이용했음 -> 성공!
-        var data = {'pid': pid, 'content': content.value, 'uid': uid.value, 'password':password.value};
-        data = JSON.stringify(data);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.send(data);
-        xhr.addEventListener('load', function(){
-            var result = JSON.parse(xhr.responseText);
-            if(result.result == 'ok'){
-                alert('작성완료!')
-                location.replace(window.location.href)
-            }else if(result.result == 'no'){
-                alert('비밀번호를 확인해주세요!')
-                return
-            }else if(result.result == 'none'){
-                alert('존재하지 않는 아이디입니다!')
-            }
-        })
-        */
-        //TTD를 구현하는방법에 대해서 조사하고 해보자
-        /*
-        axios.post(url, {
-            pid: pid.value,
-            content: content.value,
-            uid: uid.value,
-            password: password.value
-        })
-            .then(function (response) {
-                var result = JSON.parse(response);
-                if(result.result == 'ok'){
-                    alert('댓글 작성완료!')
-                    location.replace(window.location.href)
-                }else if(result.result == 'no'){
-                    alert('비밀번호를 확인해주세요!')
-                    return
-                }else if(result.result == 'none'){
-                    alert('존재하지 않는 아이디입니다!')
-                    return
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-        */
-        //fetch방식으로는 성공!
         let data = {
-            pid: pid,
-            content: content.value,
-            uid: uid.value,
-            password: password.value
-        };
+            pid: getParam('pid'),
+            content: document.getElementById('content').value,
+            uid: document.getElementById('cuid').value,
+            password: document.getElementById('cpassword').value,
+        }
         let response = fetch('/comment',{
             method: 'POST',
             headers: {
@@ -123,22 +76,19 @@ script.
             body: JSON.stringify(data)
         })
         .then(response => response.json())
-        .then(result => {
-            if (result.result == 'ok') {
+        .then(response => {
+            if (response.result == 'ok') {
                 alert('댓글 작성완료!');
                 location.replace(window.location.href);
-            } else if (result.result == 'no') {
+            } else if (response.result == 'no') {
                 alert('비밀번호를 확인해주세요!');
-                return
-            } else if (result.result == 'none') {
+            } else if (response.result == 'none') {
                 alert('존재하지 않는 아이디입니다!');
-                return
             }
         })
-
-
-
-
+        .catch((err)=>{
+            console.error(err);
+        })
     }
 
 

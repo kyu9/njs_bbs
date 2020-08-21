@@ -13,20 +13,28 @@ router.get('/',function(req,res){
             var title = result.title;
             var content = result.content;
             var writer = result.uid;
+            var img = result.file;
+            var count = 0;
             if(title!=null){
                 models.comment.findAll({
-                    where:{pid: post}
+                    where:{
+                        pid: post
+                    }
                 })
                     .then((result)=>{
-                        res.render('post', {title:title, content: content, writer: writer, comments: result})
+                        res.render('post', {
+                            title:title, content: content, writer: writer, img: img, comments: result
+                        })
                     })
                     .catch((err)=>{
-                        console.log('게시물이없습니다..!')
+                        console.log('댓글이 없습니다..!')
                     })
             }
+
+
         })
         .catch(function(err){
-            console.log('route/post에서 에러발생......')
+            console.log('게시물이 없습니다..!')
         })
 })
 module.exports = router;

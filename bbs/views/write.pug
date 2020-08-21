@@ -2,7 +2,8 @@ link(rel='stylesheet', href='stylesheets/css/bootstrap.css')
 link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css')
 ons-page
     ons-toolbar
-    form(style='text-align: center; margin-top:3%;')
+    //form(method='POST' style='text-align: center; margin-top:3%;')
+    div(style='text-align: center; margin-top:3%')
         section(style='padding: 8px')
             textarea.text-input#title(type='text', ng-model='text', placeholder='제목', style='width: 80%; height:30px;')
         section(style='padding: 0 8px 8px')
@@ -14,67 +15,76 @@ ons-page
             input#password(type='password', name='password', placeholder='비밀번호')
 
         div(style='padding: 0 8px 8px')
-            button(type="button" class='btn btn-primary' onclick='submitFunction()') 글 쓰기
+            button(type="button" class='btn btn-primary' onclick='aaaa()') 글 쓰기
         div(style='padding: 0 8px 8px')
             button(type='button' class='btn btn-primary' onclick="location.href='/posts'") 게시판으로 돌아가기
 
 script.
-    var title = document.getElementById('title');
-    var content = document.getElementById('content');
-    var uid = document.getElementById('uid');
-    var password = document.getElementById('password');
-    var url = 'http://localhost:3000/write_receive';
-    var img = document.getElementById('img');
+    let title = document.getElementById('title');
+    let content = document.getElementById('content');
+    let uid = document.getElementById('uid');
+    let password = document.getElementById('password');
+    let url = '/write_receive';
+    let furl = '/write_receive_file';
+    let img = document.getElementById('img');
+    function aaaa() {
+        if(img != null){
+            let formData = new FormData();
+            formData.append('title', title.value);
+            formData.append('content', content.value);
+            formData.append('uid', uid.value);
+            formData.append('password', password.value);
+            formData.append('img', img.files[0]);
+            fetch(furl, {
+                method: 'POST',
+                headers: {},
+                body: formData,
+            })
+                .then(response => response.json())
+                .catch(error => {
+                    console.error('Error: ', error)
+                })
+                .then(response => {
+                    if (response.result == 'ok') {
+                        alert('게시물 작성완료!')
+                        location.replace('/posts')
+                    } else if (response.result == 'no') {
+                        alert('비밀번호를 다시 입력하세요!')
+                        return
+                    } else if (response.result == 'none') {
+                        alert('아이디가 존재하지 않습니다!')
+                        return
+                    }
+                })
+        }else{
+            let data = {
+                'title' : title.value,
+                'content' : content.value,
+                'uid' : uid.value,
+                'password' : password.value,
+            }
+            fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json;charset=utf-8'},
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .catch(error => {
+                    console.error('Error: ', error)
+                })
+                .then(response => {
+                    if (response.result == 'ok') {
+                        alert('게시물 작성완료!')
+                        location.replace('/posts')
+                    } else if (response.result == 'no') {
+                        alert('비밀번호를 다시 입력하세요!')
+                        return
+                    } else if (response.result == 'none') {
+                        alert('아이디가 존재하지 않습니다!')
+                        return
+                    }
+                })
+        }
 
-    function submitFunction() {
-        const formData = new FormData();
-        /*
-        var data = {'title': title.value, 'content': content.value, 'uid': uid.value, 'password':password.value};
-        data = JSON.stringify(data);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.send(data);
-        xhr.send(formData);
-        xhr.addEventListener('load', function () {
-            var result = JSON.parse(xhr.responseText);
-            if (result.result == 'ok') {
-                alert('작성완료!')
-                location.replace('http://localhost:3000/posts')
-            }
-            else if(result.result == 'no'){
-                alert('비밀번호를 다시 입력하세요!')
-                return
-            }else if(result.result == 'none'){
-                alert('아이디가 존재하지 않습니다!')
-            }
-        });
 
-         */
-        formData.append('title', title.value);
-        formData.append('content', content.value);
-        formData.append('uid', uid.value);
-        formData.append('password', password.value);
-        formData.append('img', img.files[0]);
-        fetch(url, {
-            method: 'POST',
-            headers:{
-                'Content-Type': 'multipart/form-data'
-            },
-            body: formData,
-        })
-        .then(result=>{
-            if(result.result == 'ok'){
-                alert('게시물 작성완료!')
-                location.replace('/posts')
-            }
-            else if(result.result == 'no'){
-                alert('비밀번호를 다시 입력하세요!')
-                return
-            } else if(result.result == 'none'){
-                alert('아이디가 존재하지 않습니다!')
-                return
-            }
-        })
     }
-
