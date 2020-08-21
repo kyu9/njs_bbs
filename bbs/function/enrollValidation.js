@@ -1,7 +1,6 @@
 let models = require('../models');
 function enrollValidation(info,res){
     let responseData;
-    //이미 존재하는 아이디
     models.user.findAll({
         where: {id: info.id}
     })

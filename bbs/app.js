@@ -6,7 +6,6 @@ var logger = require('morgan');
 var sha256 = require('sha256');
 
 var indexRouter = require('./routes/index');
-var testRouter = require('./routes/test');
 var loginRouter = require('./routes/login');
 var enrollRouter = require('./routes/enroll');
 var loginreceiveRouter = require('./routes/login_receive');
@@ -39,7 +38,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/upload', express.static('upload'));
 
 app.use('/', indexRouter);
-app.use('/test', testRouter);
 app.use('/login', loginRouter);
 app.use('/enroll', enrollRouter);
 app.use('/login_receive', loginreceiveRouter);

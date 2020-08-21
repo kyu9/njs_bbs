@@ -1,16 +1,18 @@
 link(rel='stylesheet', href='stylesheets/css/bootstrap.css')
 link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css')
 div(style='margin-left:3%; margin-right:3%')
-    div(style='text-align: left; margin-top:3%; height: 50%')
-        div(style='padding: 8px; border: solid 1px red')
+    div(style='text-align: left; margin-top:3%; height: 50%; border: solid 1px red')
+        div(style='padding: 8px; ')
             p(style='font-size:18px; margin:0px;') #{title}
             p(style='font-size:15px; margin:0px; text-align:right') #{writer}
             hr(style='border: solid 1px')
             if(img != null)
-                img(style='height:30%; weight:100%' src=`/upload/${img}`)
-            p(style='height:30%; weight:100%') #{content}
-            div(style='padding: 0 8px 8px; text-align:right')
-                button(type="button" class='btn btn-primary' onclick="location.href='/posts'") 게시판으로 돌아가기
+                //img(style='height:50%; weight:50%' src=`/upload/${img}`)
+                img(style='height:50%; weight:50%' src=`/upload/${img}`)
+            //p(style='height:30%; weight:100%') #{content}
+            p #{content}
+    div(style='padding: 0 8px 8px; text-align:right')
+        button(type="button" class='btn btn-primary' onclick="location.href='/posts'") 게시판으로 돌아가기
     hr
     div(style='margin:0px; padding:0px')
         -var count = 0

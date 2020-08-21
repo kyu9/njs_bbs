@@ -5,7 +5,8 @@ head
     h1(style='text-align:center') 대충 게시판이라는 제목
     p(style='text-align: center')
         button(type='button' class='btn btn-primary' onclick="location.href='/write'") 글쓰기
-        button(type='button' class='btn btn-primary' onclick='main_alert()' style='margin-left: 8px' alert='메인으로가면 다시 로그인해야합니다!') 메인으로
+        button(type='button' class='btn btn-primary' onclick='location.href="/"' style='margin-left: 8px; margin-right: 8px' alert='메인으로가면 다시 로그인해야합니다!') 메인으로
+        button(type='button' class='btn btn-primary' onclick="location.href='/login'") 로그인
 table.type09(id='List')
     thead
         tr

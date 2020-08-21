@@ -5,13 +5,15 @@ head
     title Welcome!!
 .container
     .jumbotron
-        h1 Welcome to my BBS
-        h2 Selfmaking...
+        h1 Welcome!
+        h3 글을 쓰거나 댓글을 달기 위해서는 로그인 해야합니다!
         div(style='text-align: center')
-            img(src='/images/universe.jpg' style='weight:70%; height:70%')
+            img(src='/images/universe.jpg' style='text-align:center; weight:70%; height:50%;')
         pre
-        p(style='text-align: center')
-            a.btn.btn-primary.btn-pull(href='/login' role='button') 로그인하러 이동!
+        div(style='text-align: center')
+            a.btn.btn-primary.btn-pull(href='/login' role='button' style='margin:5px') 로그인하러 이동!
+            a.btn.btn-primary.btn-pull(href='/posts' role='button') 게시판으로 이동!
+
         pre
         p
             a(href='https://www.youtube.com/watch?v=CXcAKa-EW7Q' target='_blank') 노래 한곡 들으세요
