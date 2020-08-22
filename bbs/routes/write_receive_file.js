@@ -9,7 +9,7 @@ AWS.config.update({
     secretAccessKey: 'mHoL4mIQ8gwqEYhjNt2APp0dmTsFHKH0uKb4t+YC',
     region: 'ap-northeast-2'
 })
-/*
+/* 로컬에서 사용할때는 요렇게
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, '/Users/kyudoshim/mybbs/bbs/upload/')
