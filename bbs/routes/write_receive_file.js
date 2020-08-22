@@ -21,6 +21,7 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage})
 
  */
+let s3 = new AWS.S3();
 const upload = multer({
     storage: multerS3({
         s3: s3,
