@@ -28,9 +28,7 @@ const upload = multer({
         bucket: 'mybbs',
         contentType: multerS3.AUTO_CONTENT_TYPE,
         acl: 'public-read',
-        key(req, file, cb){
-            cb(null, file.originalname)
-        }
+        //key(req, file, cb){cb(null, file.originalname)}
     })
 })
 
