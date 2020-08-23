@@ -27,13 +27,15 @@ const upload = multer({
         s3: s3,
         bucket: 'mybbs',
         contentType: multerS3.AUTO_CONTENT_TYPE,
-        acl: 'public-read',
-        //key(req, file, cb){cb(null, file.originalname)}
+        acl: 'public-read-write',
+        key(req, file, cb){
+            cb(null, file.originalname)
+        }
     })
 })
 
 router.post('/', upload.single('img'), function(req, res){
-    post.wImg(req.body.title, req.body.content, req.body.uid, req.body.password, req.file.filename, function(result){res.json(result);})
+    post.wImg(req.body.title, req.body.content, req.body.uid, req.body.password, req.file.location, function(result){res.json(result);})
 })
 
 module.exports = router;

@@ -14,7 +14,6 @@ router.get('/',function(req,res){
             var content = result.content;
             var writer = result.uid;
             var img = result.file;
-            var count = 0;
             if(title!=null){
                 models.comment.findAll({
                     where:{
