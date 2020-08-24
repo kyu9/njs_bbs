@@ -2,14 +2,15 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var logger = require('morgan');
-var sha256 = require('sha256');
 
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
 var enrollRouter = require('./routes/enroll');
 var loginreceiveRouter = require('./routes/login_receive');
 var enrollreceiveRouter = require('./routes/enroll_receive');
+var logoutRouter = require('./routes/logout');
 var postsRouter = require('./routes/posts');
 var writeRouter = require('./routes/write');
 var wreceiveRouter = require('./routes/write_receive');
@@ -36,6 +37,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //외부에서도 그림파일에 접속할수 있도록!
 app.use('/upload', express.static('upload'));
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie:{
+    maxAge: 24000 * 60 * 60
+  }
+}));
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
@@ -50,10 +59,13 @@ app.use('/post',postRouter);
 app.use('/post_receive', postreceiveRouter);
 app.use('/comment', commentRouter);
 app.use('/profile', profileRouter);
+app.use('/logout', logoutRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+
 
 module.exports = app;

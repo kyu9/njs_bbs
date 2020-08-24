@@ -9,7 +9,8 @@ AWS.config.update({
     secretAccessKey: 'mHoL4mIQ8gwqEYhjNt2APp0dmTsFHKH0uKb4t+YC',
     region: 'ap-northeast-2'
 })
-/* 로컬에서 사용할때는 요렇게
+//local
+
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, '/Users/kyudoshim/mybbs/bbs/upload/')
@@ -20,7 +21,8 @@ var storage = multer.diskStorage({
 })
 var upload = multer({storage: storage})
 
- */
+//aws
+/*
 let s3 = new AWS.S3();
 const upload = multer({
     storage: multerS3({
@@ -34,8 +36,13 @@ const upload = multer({
     })
 })
 
+ */
+
 router.post('/', upload.single('img'), function(req, res){
-    post.wImg(req.body.title, req.body.content, req.body.uid, req.body.password, req.file.location, function(result){res.json(result);})
+    //aws
+    //post.wImg(req.body.title, req.body.content, req.body.uid, req.body.password, req.file.location, function(result){res.json(result);})
+    //local
+    post.wImg(req.body.title, req.body.content, req.body.uid, req.body.password, req.file.filename, function(result){res.json(result);})
 })
 
 module.exports = router;

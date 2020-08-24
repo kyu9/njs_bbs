@@ -54,7 +54,6 @@ script(src='//code.jquery.com/jquery-1.11.1.min.js')
             var left = ((width / 2) - (w / 2)) + dualScreenLeft;
             var top = ((height / 2) - (h / 2)) + dualScreenTop;
             var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-            // Puts focus on the newWindow
             if (window.focus) {
                 newWindow.focus();
             }
@@ -76,9 +75,6 @@ script(src='//code.jquery.com/jquery-1.11.1.min.js')
                     alert(id + '님 환영합니다!')
                     window.location.href = "/posts";
                     localStorage.setItem("login", 'true');
-                } else if(result.result === 'noun'){
-                    alert('아이디를 입력하세요!')
-                    return;
                 }
             });
         }

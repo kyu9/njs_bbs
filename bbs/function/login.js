@@ -1,7 +1,5 @@
 let models = require('../models');
-let sha256 = require('sha256');
-let express = require('express')
-let app = express()
+let express = require('express');
 function loginFunction(id,pwd,res,req){
     let responseData;
     models.user.findOne({

@@ -7,7 +7,10 @@ div(style='margin-left:3%; margin-right:3%')
             p(style='font-size:15px; margin:0px; text-align:right') #{writer}
             hr(style='border: solid 1px')
             if(img != null)
-                img(style='height:50%; weight:50%' src=`${img}`)
+                //aws
+                //img(style='height:50%; weight:50%' src=`${img}`)
+                //local
+                img(style='height:50%; weight:50%' src=`/upload/${img}`)
             p #{content}
     div(style='padding: 0 8px 8px; text-align:right')
         button(type="button" class='btn btn-primary' onclick="location.href='/posts'") 게시판으로 돌아가기
