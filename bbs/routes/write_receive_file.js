@@ -1,6 +1,6 @@
 let express = require('express');
 let router = express.Router();
-let post = require('../function/post');
+let post = require('../function/posting');
 const multerS3 = require('multer-s3');
 const multer = require('multer');
 const AWS = require('aws-sdk');
@@ -42,7 +42,7 @@ router.post('/', upload.single('img'), function(req, res){
     //aws
     //post.wImg(req.body.title, req.body.content, req.body.uid, req.body.password, req.file.location, function(result){res.json(result);})
     //local
-    post.wImg(req.body.title, req.body.content, req.body.uid, req.body.password, req.file.filename, function(result){res.json(result);})
+    post.wImg(req.body.title, req.body.content, req.session.user, req.file.filename, function(result){res.json(result);})
 })
 
 module.exports = router;

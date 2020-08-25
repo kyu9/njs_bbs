@@ -31,8 +31,8 @@ div(style='margin-left:3%; margin-right:3%')
     div
         textarea.textarea#content(ng-model='text2', placeholder='댓글내용', style='width: 80%; height: 80px; margin-bottom:5px')
     div(style='padding-bottom:3%')
-        input#cuid(type='text' name='cuid' placeholder='아이디' style='margin-right:5px')
-        input#cpassword(type='password' name='cpassword' placeholder='비밀번호' style='margin-right: 5px')
+        //input#cuid(type='text' name='cuid' placeholder='아이디' style='margin-right:5px')
+        //input#cpassword(type='password' name='cpassword' placeholder='비밀번호' style='margin-right: 5px')
         button(type="button" class='btn btn-primary' onclick='comment()' style='text-align: right') 댓글 쓰기
 
 script.
@@ -68,8 +68,8 @@ script.
         let data = {
             pid: getParam('pid'),
             content: document.getElementById('content').value,
-            uid: document.getElementById('cuid').value,
-            password: document.getElementById('cpassword').value,
+            //uid: document.getElementById('cuid').value,
+            //password: document.getElementById('cpassword').value,
         }
         let response = fetch('/comment',{
             method: 'POST',

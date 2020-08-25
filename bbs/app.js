@@ -16,7 +16,6 @@ var writeRouter = require('./routes/write');
 var wreceiveRouter = require('./routes/write_receive');
 var wreceiveFileRouter = require('./routes/write_receive_file');
 var postRouter = require('./routes/post');
-var postreceiveRouter = require('./routes/post_receive');
 var commentRouter = require('./routes/comment');
 var profileRouter = require('./routes/profile');
 
@@ -56,7 +55,6 @@ app.use('/write', writeRouter);
 app.use('/write_receive', wreceiveRouter);
 app.use('/write_receive_file', wreceiveFileRouter);
 app.use('/post',postRouter);
-app.use('/post_receive', postreceiveRouter);
 app.use('/comment', commentRouter);
 app.use('/profile', profileRouter);
 app.use('/logout', logoutRouter);

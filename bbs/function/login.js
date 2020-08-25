@@ -1,5 +1,6 @@
 let models = require('../models');
-let express = require('express');
+let jwt = require('jsonwebtoken');
+
 function loginFunction(id,pwd,res,req){
     let responseData;
     models.user.findOne({
@@ -11,9 +12,14 @@ function loginFunction(id,pwd,res,req){
                 res.json(responseData);
                 console.log('로그인 실패!');
             }else if(user.dataValues.password==pwd) {
+                req.session.user = user.id;
+                console.log(req.session.user);
                 responseData = {'result': 'ok'};
                 res.json(responseData);
                 console.log(user.dataValues.name + "님이 " + user.dataValues.id + "로 로그인했습니다.");
+                const payload = {id: id}
+                var token = jwt.sign(payload, 'secret');
+                console.log(token);
             }
         })
         .catch(function(err){
