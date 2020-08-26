@@ -10,8 +10,6 @@ ons-page
             pre
             div(style='text-align:right')
                 input#img(type='file', name='img')
-            //input#uid(type='text', name='id', placeholder='아이디')
-            //input#password(type='password', name='password', placeholder='비밀번호')
 
         div(style='padding: 0 8px 8px')
             button(type="button" class='btn btn-primary' onclick='aaaa()') 글 쓰기
@@ -21,61 +19,60 @@ ons-page
 script.
     let title = document.getElementById('title');
     let content = document.getElementById('content');
-    let uid = document.getElementById('uid');
-    let password = document.getElementById('password');
     let url = '/write_receive';
     let furl = '/write_receive_file';
     let img = document.getElementById('img');
     function aaaa() {
-        if(img.files[0] == null){
-            let data = {
-                'title': title.value,
-                'content': content.value,
-                //'uid': uid.value,
-                //'password': password.value,
-            }
-            fetch(url, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json;charset=utf-8'},
-                body: JSON.stringify(data),
-            })
-                .then(response => response.json())
-                .catch(error => {
-                    console.error('Error: ', error)
-                })
-                .then(response => {
-                    if (response.result == 'ok') {
-                        alert('게시물 작성완료!')
-                        location.replace('/posts')
-                    } else if (response.result == 'no') {
-                        alert('write과정에서 에러 발생!')
-                        return
-                    }
-                })
-        }else{
-            let formData = new FormData();
-            formData.append('title', title.value);
-            formData.append('content', content.value);
-            //formData.append('uid', uid.value);
-            //formData.append('password', password.value);
-            formData.append('img', img.files[0]);
-            fetch(furl, {
-                method: 'POST',
-                headers: {},
-                body: formData,
-            })
-                .then(response => response.json())
-                .catch(error => {
-                    console.error('Error: ', error)
-                })
-                .then(response => {
-                    if (response.result == 'ok') {
-                        alert('게시물 작성완료!')
-                        location.replace('/posts')
-                    } else if (response.result == 'no') {
-                        alert('비밀번호를 다시 입력하세요!')
-                        return
-                    }
-                })
-        }
+       var con_test = confirm('게시물을 작성하시겠습니까??');
+       if(con_test == true){
+           if (img.files[0] == null) {
+               let data = {
+                   'title': title.value,
+                   'content': content.value,
+               }
+               fetch(url, {
+                   method: 'POST',
+                   headers: {'Content-Type': 'application/json;charset=utf-8'},
+                   body: JSON.stringify(data),
+               })
+                   .then(response => response.json())
+                   .catch(error => {
+                       console.error('Error: ', error)
+                   })
+                   .then(response => {
+                       if (response.result == 'ok') {
+                           alert('게시물 작성완료!')
+                           location.replace('/posts')
+                       } else if (response.result == 'no') {
+                           alert('write과정에서 에러 발생!')
+                           return
+                       }
+                   })
+           } else {
+               let formData = new FormData();
+               formData.append('title', title.value);
+               formData.append('content', content.value);
+               formData.append('img', img.files[0]);
+               fetch(furl, {
+                   method: 'POST',
+                   headers: {},
+                   body: formData,
+               })
+                   .then(response => response.json())
+                   .catch(error => {
+                       console.error('Error: ', error)
+                   })
+                   .then(response => {
+                       if (response.result == 'ok') {
+                           alert('게시물 작성완료!')
+                           location.replace('/posts')
+                       } else if (response.result == 'no') {
+                           alert('비밀번호를 다시 입력하세요!')
+                           return
+                       }
+                   })
+           }
+       }else{
+           return;
+       }
     }

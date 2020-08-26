@@ -65,33 +65,36 @@ script.
     }
 
     function comment() {
-        let data = {
-            pid: getParam('pid'),
-            content: document.getElementById('content').value,
-            //uid: document.getElementById('cuid').value,
-            //password: document.getElementById('cpassword').value,
-        }
-        let response = fetch('/comment',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(response => {
-            if (response.result == 'ok') {
-                alert('댓글 작성완료!');
-                location.replace(window.location.href);
-            } else if (response.result == 'no') {
-                alert('비밀번호를 확인해주세요!');
-            } else if (response.result == 'none') {
-                alert('존재하지 않는 아이디입니다!');
+        var con_test = confirm('댓글을 작성하시겠습니까??');
+        if(con_test == true){
+            let data = {
+                pid: getParam('pid'),
+                content: document.getElementById('content').value,
             }
-        })
-        .catch((err)=>{
-            console.error(err);
-        })
+            let response = fetch('/comment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.result == 'ok') {
+                        alert('댓글 작성완료!');
+                        location.replace(window.location.href);
+                    } else if (response.result == 'no') {
+                        alert('비밀번호를 확인해주세요!');
+                    } else if (response.result == 'none') {
+                        alert('존재하지 않는 아이디입니다!');
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
+        }else{
+            return;
+        }
     }
 
 

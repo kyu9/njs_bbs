@@ -1,0 +1,105 @@
+script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+link#custom-css(href='/stylesheets/custom_css/posts.css', rel='stylesheet')
+link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css')
+head
+    h1(style='text-align:center') 당신의 기록들
+    if(userid)
+        p(style='text-align: center') #{userid}님이 작성하신 게시물과 댓글입니다. 이 페이지에서 수정이 가능합니다.
+        p(style='text-align: center')
+            button(type='button' class='btn btn-primary' onclick='location.href="/"' style='margin-left: 8px; margin-right: 8px') 메인으로
+            button(type='button' class='btn btn-primary' onclick="location.href='/posts'" style='margin-right: 8px') 게시판으로
+            button(type='button' class='btn btn-primary' onclick="location.href='/logout'") 로그아웃
+
+
+        h3(style='text-align:center') 게시물-> 게시물을 클릭하면 수정을, 삭제를 누르면 게시물이 삭제됩니다!
+        table.type09(id='List')
+            thead
+                tr
+                    th(scope='cols' style="width:10%; text-align:center") 번호
+                    th(scope='cols' style="width:45%; text-align:center") 제목
+                    th(scope='cols' style="width:30%; text-align:center") 작성일
+                    th(scope='cols' style="width:10%; text-align:center") 삭제
+            tbody
+                for post in posts
+                    tr
+                        td(style='text-align:center')= post.id
+                        td(style='cursor:hand' onclick=`p_fix(${post.id})`)= post.title
+                        td(style='text-align:center')= post.created_at
+                        td(style='color: red; text-align:center; cursor:hand' onclick=`delete_post(${post.id})`) 삭제
+        hr
+        h3(style='text-align:center') 댓글
+        table.type09(id='List')
+            thead
+                tr
+                    th(scope='cols' style="width:10%; text-align:center") 게시물
+                    th(scope='cols' style="width:50%; text-align:center") 댓글 내용
+                    th(scope='cols' style="width:30%; text-align:center") 작성일
+                    th(scope='cols' style='width:10%; text-align:center') 변경
+            tbody
+                for comment in comments
+                    tr
+                        td(style='text-align:center')= comment.pid
+                        td(style='cursor:hand' onclick= `delete_comment(${comment.pid})`)= comment.content
+                        td(style='text-align:center')= comment.created_at
+                        td(style='color: red; text-align:center; cursor:hand' onclick= `delete_comment(${comment.id}, ${comment.pid})`) 삭제
+
+    else
+        p(style='text-align: center') 비정상적인 접속입니다... 로그인해서 들어와주세요!
+script.
+    function p_fix(id){
+        document.location.href='p_fix?pid='+id;
+    }
+    function delete_post(id){
+        var con_test = confirm('선택하신 '+id+'번째 게시물을 삭제하시겠습니까?');
+        if (con_test == true) {
+            let data = {id: id}
+            fetch('/post_delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(response => {
+                if(response.result == 'ok'){
+                    alert('게시물 삭제 성공!');
+                    window.location.reload()
+                }else{
+                    alert('게시물 삭제 실패!');
+                }
+            })
+            .catch((err)=>{
+                console.error(err);
+            })
+        } else {
+            return;
+        }
+    }
+    function delete_comment(id, pid){
+        var con_test = confirm('선택하신 ' + pid + '번 게시물에 있는 댓글을 삭제하시겠습니까?');
+        if (con_test == true) {
+            let data = {id: id}
+            fetch('/comment_delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(response => {
+                    if (response.result == 'ok') {
+                        alert('댓글 삭제 성공!');
+                        window.location.reload()
+                    } else {
+                        alert('게시물 삭제 실패!');
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
+        } else {
+            return;
+        }
+    }
