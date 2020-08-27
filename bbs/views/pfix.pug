@@ -1,0 +1,90 @@
+link(rel='stylesheet', href='stylesheets/css/bootstrap.css')
+link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css')
+ons-page
+    ons-toolbar
+    div(style='text-align: center; margin-top:3%')
+        section(style='padding: 8px')
+            text#pid(type='text', ng-model='text', style='width: 80%; height:30px;') #{result.id}
+        section(style='padding: 8px')
+            textarea.text-input#title(type='text', ng-model='text', style='width: 80%; height:30px;') #{result.title}
+        section(style='padding: 0 8px 8px')
+            textarea.textarea#content(ng-model='text2', style='width: 80%; height: 400px;') #{result.content}
+        if(result.file!=null)
+            p 현재 게시물의 사진
+            img(style='height:30%; weight:30%' src=`/upload/${result.file}`)
+            pre
+            input#img(type='file' name='img')
+        else
+            pre
+                div(style='text-align:right')
+                    input#img(type='file', name='img')
+        pre
+        div(style='padding: 0 8px 8px')
+            button(type="button" class='btn btn-primary' onclick='aaaa()' style='margin-right:8px') 글 수정완료
+            button(type='button' class='btn btn-danger' onclick='window.close()') 취소
+        div(style='padding: 0 8px 8px')
+
+
+script.
+    let pid = document.getElementById('pid');
+    let title = document.getElementById('title');
+    let content = document.getElementById('content');
+    let url = '/update_receive';
+    let furl = '/update_receive_file';
+    let img = document.getElementById('img');
+    function aaaa() {
+        var con_test = confirm('게시물을 수정하시겠습니까??');
+        if(con_test == true){
+            if (img.files[0] == null) {
+                let data = {
+                    'pid' : pid.innerText,
+                    'title': title.value,
+                    'content': content.value,
+                }
+                fetch(url, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json;charset=utf-8'},
+                    body: JSON.stringify(data),
+                })
+                    .then(response => response.json())
+                    .catch(error => {
+                        console.error('Error: ', error)
+                    })
+                    .then(response => {
+                        if (response.result == 'ok') {
+                            alert('게시물 수정완료!')
+                            window.close()
+                        } else if (response.result == 'no') {
+                            alert('파일이 없는 경우에서 에러 발생!')
+                            return
+                        }
+                    })
+            } else {
+                let formData = new FormData();
+                formData.append('pid', pid.innerText);
+                formData.append('title', title.value);
+                formData.append('content', content.value);
+                formData.append('img', img.files[0]);
+                fetch(furl, {
+                    method: 'POST',
+                    headers: {},
+                    body: formData,
+                })
+                    .then(response => response.json())
+                    .catch(error => {
+                        console.error('Error: ', error)
+                    })
+                    .then(response => {
+                        if (response.result == 'ok') {
+                            alert('게시물 수정완료!')
+                            window.close()
+                        } else if (response.result == 'no') {
+                            alert('파일이 있는 경우에서 에러 발생!')
+                            return
+                        }
+                    })
+            }
+        }else{
+            return;
+        }
+    }

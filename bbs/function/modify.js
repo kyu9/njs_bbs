@@ -30,5 +30,45 @@ function deleteComment(id, res){
         })
 }
 
+const uNoImg = (...args) => {
+    let responseData
+    models.post.update({
+        title: args[0],
+        content: args[1],
+    },{
+        where:{id: args[2]}
+    }).then(function(result){
+        responseData = {'result' : 'ok'}
+        args[3](responseData);
+    }).catch((err)=>{
+        responseData = {'result': 'no'}
+        args[3](responseData);
+        console.error(err);
+    })
+}
+
+const uImg = (...args) => {
+    let responseData
+    models.post.update({
+        title: args[0],
+        content: args[1],
+        file: args[3],
+    },{
+        where:{
+            id: args[2]
+        }
+    }).then(function(result){
+        responseData = {'result' : 'ok'}
+        args[4](responseData);
+    }).catch((err)=>{
+        responseData = {'result': 'no'}
+        args[4](responseData);
+        console.error(err);
+    })
+
+}
+
+exports.uNoImg = uNoImg;
+exports.uImg = uImg;
 exports.deleteComment = deleteComment;
 exports.deletePost = deletePost;

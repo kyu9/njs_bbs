@@ -21,6 +21,10 @@ var profileRouter = require('./routes/profile');
 var historyRouter = require('./routes/history');
 var deletePostRouter = require('./routes/post_delete');
 var deleteCommentRouter = require('./routes/comment_delete');
+var fixPostRouter = require('./routes/p_fix');
+var ureceiveRouter = require('./routes/update_receive');
+var ureceiveFileRouter = require('./routes/update_receive_file');
+
 
 var sequelize = require('./models').sequelize;
 sequelize.sync();
@@ -64,6 +68,9 @@ app.use('/logout', logoutRouter);
 app.use('/history', historyRouter);
 app.use('/post_delete', deletePostRouter);
 app.use('/comment_delete', deleteCommentRouter);
+app.use('/pfix', fixPostRouter);
+app.use('/update_receive', ureceiveRouter);
+app.use('/update_receive_file', ureceiveFileRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
