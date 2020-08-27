@@ -7,8 +7,8 @@ head
         p(style='text-align: center') 환영합니다 #{userid}님!
         p(style='text-align: center')
             button(type='button' class='btn btn-primary' onclick="location.href='/write'") 글쓰기
-            button(type='button' class='btn btn-primary' onclick='location.href="/"' style='margin-left: 8px; margin-right: 8px' alert='메인으로가면 다시 로그인해야합니다!') 메인으로
-            button(type='button' class='btn btn-primary' onclick="location.href='/logout'" style='margin-right: 8px') 로그아웃
+            button(type='button' class='btn btn-primary' onclick='location.href="/"' style='margin-left: 8px; margin-right: 8px') 메인으로
+            button(type='button' class='btn btn-warning' onclick="logout()" style='margin-right: 8px') 로그아웃
             button(type='button' class='btn btn-primary' onclick="location.href='/history'") 내 기록
         table.type09(id='List')
             thead
@@ -30,6 +30,14 @@ head
 script.
     function send_post(id){
         document.location.href='post?pid='+id;
+    }
+    function logout(){
+        var con_test = confirm('로그아웃 하시겠습니까? (로그인하셔야 게시판 이용이 가능합니다!)');
+        if(con_test == true){
+            document.location.href='/logout';
+        }else{
+            return;
+        }
     }
 
 

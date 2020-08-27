@@ -10,7 +10,7 @@ div(style='margin-left:3%; margin-right:3%')
                 //aws
                 //img(style='height:50%; weight:50%' src=`${img}`)
                 //local
-                img(style='height:50%; weight:50%' src=`/upload/${img}`)
+                img(style='height:50%; weight:50%' src=`/images/${img}`)
             p #{content}
     div(style='padding: 0 8px 8px; text-align:right')
         button(type="button" class='btn btn-primary' onclick="location.href='/posts'") 게시판으로 돌아가기
@@ -31,8 +31,6 @@ div(style='margin-left:3%; margin-right:3%')
     div
         textarea.textarea#content(ng-model='text2', placeholder='댓글내용', style='width: 80%; height: 80px; margin-bottom:5px')
     div(style='padding-bottom:3%')
-        //input#cuid(type='text' name='cuid' placeholder='아이디' style='margin-right:5px')
-        //input#cpassword(type='password' name='cpassword' placeholder='비밀번호' style='margin-right: 5px')
         button(type="button" class='btn btn-primary' onclick='comment()' style='text-align: right') 댓글 쓰기
 
 script.

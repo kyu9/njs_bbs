@@ -4,14 +4,16 @@ ons-page
     ons-toolbar
     div(style='text-align: center; margin-top:3%')
         section(style='padding: 8px')
+            text 선택한 게시물은
             text#pid(type='text', ng-model='text', style='width: 80%; height:30px;') #{result.id}
+            text 번 게시물입니다.
         section(style='padding: 8px')
             textarea.text-input#title(type='text', ng-model='text', style='width: 80%; height:30px;') #{result.title}
         section(style='padding: 0 8px 8px')
             textarea.textarea#content(ng-model='text2', style='width: 80%; height: 400px;') #{result.content}
         if(result.file!=null)
             p 현재 게시물의 사진
-            img(style='height:30%; weight:30%' src=`/upload/${result.file}`)
+            img(style='height:30%; weight:30%' src=`/images/${result.file}`)
             pre
             input#img(type='file' name='img')
         else
@@ -54,6 +56,7 @@ script.
                         if (response.result == 'ok') {
                             alert('게시물 수정완료!')
                             window.close()
+                            document.location.href='/history'
                         } else if (response.result == 'no') {
                             alert('파일이 없는 경우에서 에러 발생!')
                             return

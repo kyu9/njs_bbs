@@ -6,7 +6,7 @@ head
     if(userid)
         p(style='text-align: center') #{userid}님이 작성하신 게시물과 댓글입니다.
         p(style='text-align: center') 게시물의 제목을 클릭하면 게시물을 수정할 수 있습니다.
-        p(style='text-align: center') 댓글의 제목을 클릭하면 댓글이 달려있는 게시물로 이동할 수 있습니다.
+        p(style='text-align: center') 댓글을 클릭하게되면 댓글이 달려있는 게시물로 이동하게 됩니다.
         p(style='text-align: center') 삭제버튼을 누르면 게시물, 댓글을 삭제할 수 있습니다.
         p(style='text-align: center')
             button(type='button' class='btn btn-primary' onclick='location.href="/"' style='margin-left: 8px; margin-right: 8px') 메인으로
@@ -14,7 +14,7 @@ head
             button(type='button' class='btn btn-primary' onclick="location.href='/logout'") 로그아웃
 
 
-        h3(style='text-align:center') 게시물
+        h3(style='text-align:center') #{userid}님이 생성하신 게시물
         table.type09(id='List')
             thead
                 tr
@@ -30,7 +30,7 @@ head
                         td(style='text-align:center')= post.created_at
                         td(style='color: red; text-align:center; cursor:hand' onclick=`delete_post(${post.id})`) 삭제
         hr
-        h3(style='text-align:center') 댓글
+        h3(style='text-align:center') #{userid}님이 생성하신 댓글
         table.type09(id='List')
             thead
                 tr

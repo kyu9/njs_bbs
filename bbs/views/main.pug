@@ -8,9 +8,12 @@ head
         h1 Welcome!
         h3 회원들만 사용할 수 있는 게시판
         if(user)
-            h5 현재 #{user}로 로그인되어있습니다...
+            h5(style='text-align:right') 현재 아이디: #{user}
         div(style='text-align: center')
-            img(src='/images/universe.jpg' style='text-align:center; weight:70%; height:50%;')
+            if(user)
+                img(src='/images/superjerry.gif' style='text-align:center; weight:70%; height:50%;')
+            else
+                img(src='/images/jerry.gif' style='text-align:center; weight:70%; height:50%;')
         pre
         if(user != null)
             div(style='text-align: center')

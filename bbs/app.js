@@ -41,8 +41,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//외부에서도 그림파일에 접속할수 있도록!
-app.use('/upload', express.static('upload'));
 app.use(session({
   secret: 'secret',
   resave: false,

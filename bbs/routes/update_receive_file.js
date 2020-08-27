@@ -13,7 +13,7 @@ AWS.config.update({
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '/Users/kyudoshim/mybbs/bbs/upload/')
+        cb(null, '/Users/kyudoshim/mybbs/bbs/public/images/')
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname)
