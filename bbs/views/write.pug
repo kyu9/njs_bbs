@@ -42,7 +42,7 @@ script.
                    .then(response => {
                        if (response.result == 'ok') {
                            alert('게시물 작성완료!')
-                           location.replace('/posts')
+                           history.back()
                        } else if (response.result == 'no') {
                            alert('write과정에서 에러 발생!')
                            return
@@ -65,7 +65,7 @@ script.
                    .then(response => {
                        if (response.result == 'ok') {
                            alert('게시물 작성완료!')
-                           location.replace('/posts')
+                           history.back()
                        } else if (response.result == 'no') {
                            alert('비밀번호를 다시 입력하세요!')
                            return
