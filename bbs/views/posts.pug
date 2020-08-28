@@ -1,6 +1,18 @@
 script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
 link#custom-css(href='/stylesheets/custom_css/posts.css', rel='stylesheet')
 link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css')
+style.
+    .pagination {
+        display: table;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
 head
     h1(style='text-align:center') 대충 게시판이라는 제목
     if(userid)
@@ -10,7 +22,7 @@ head
             button(type='button' class='btn btn-primary' onclick='location.href="/"' style='margin-left: 8px; margin-right: 8px') 메인으로
             button(type='button' class='btn btn-warning' onclick="logout()" style='margin-right: 8px') 로그아웃
             button(type='button' class='btn btn-primary' onclick="location.href='/history'") 내 기록
-        table.type09(id='List')
+        table.type09
             thead
                 tr
                     th(scope='cols' style="width:10%; text-align:center") 번호
@@ -24,10 +36,23 @@ head
                         td(style='cursor:hand' onclick=`send_post(${post.id})`)= post.title
                         td(style='text-align:center')= post.created_at
                         td(style='text-align:center')= post.uid
+        -let curpage = Math.ceil(count/7);
+        ul(class="pagination")
+            a(onclick=`prePage(${pageNum});`) &laquo;
+            -for(i=1; i<=curpage; i++)
+                a(href=`/posts?page=${i}`) #{i}
+            a(onclick=`nextPage(${pageNum});`) &raquo;
+
     else
         p(style='text-align: center') 비정상적인 접속입니다... 로그인해서 들어와주세요!
 
 script.
+    function prePage(num){
+        document.location.href='posts?page='+(--num);
+    }
+    function nextPage(num){
+        document.location.href='posts?page='+(++num);
+    }
     function send_post(id){
         document.location.href='post?pid='+id;
     }

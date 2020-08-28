@@ -17,7 +17,7 @@ head
         pre
         if(user != null)
             div(style='text-align: center')
-                a.btn.btn-primary.btn-pull(href='/posts' role='button' style='margin:5px') 게시판으로 이동
+                a.btn.btn-primary.btn-pull(href='/posts?page=1' role='button' style='margin:5px') 게시판으로 이동
                 a.btn.btn-warning.btn-pull(role='button' style='margin:5px' onclick='check()') 로그아웃
         else
             div(style='text-align: center')
