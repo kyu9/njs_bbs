@@ -8,7 +8,7 @@ let jwt = require('jsonwebtoken');
 
 
 AWS.config.update({
-    accessKeyId: process.env["AWS_KEYID "],
+    accessKeyId: 'AKIAZSCSHZ5FYML6ZV5M',
     secretAccessKey: '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',
     region: 'ap-northeast-2'
 })
