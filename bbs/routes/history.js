@@ -1,10 +1,12 @@
 var express = require('express');
 var models = require('../models');
 var router = express.Router();
+let jwt = require('jsonwebtoken');
 
 router.get('/', async (req, res, next)=>{
     try{
-        const userid = req.session.user;
+        let user = jwt.verify(req.cookies.user, 'secret');
+        const userid = user.id
         const posts = await models.post.findAll({
             where:{uid: userid}
         });

@@ -1,9 +1,11 @@
 let express = require('express');
 let models = require('../models');
-let router = express.Router()
+let router = express.Router();
+let jwt = require('jsonwebtoken');
 
 router.get('/',async(req,res, next)=>{
     try{
+        let user = jwt.verify(req.cookies.user, 'secret');
         let pageNum = req.query.page;
         console.log(pageNum);
         let offset = 0;
@@ -19,7 +21,7 @@ router.get('/',async(req,res, next)=>{
             .then(result=>{
                 const posts = result.rows;
                 const count = result.count;
-                res.render('posts', {posts: posts, userid: req.session.user, pageNum: pageNum, count: count})
+                res.render('posts', {posts: posts, userid: user.id, pageNum: pageNum, count: count})
             })
     }catch (e) {
         console.error(e);

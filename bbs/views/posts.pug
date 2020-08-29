@@ -38,10 +38,13 @@ head
                         td(style='text-align:center')= post.uid
         -let curpage = Math.ceil(count/7);
         ul(class="pagination")
-            a(onclick=`prePage(${pageNum});`) &laquo;
+            a(onclick=`prePage(${pageNum});` style='cursor:hand') &laquo;
             -for(i=1; i<=curpage; i++)
-                a(href=`/posts?page=${i}`) #{i}
-            a(onclick=`nextPage(${pageNum});`) &raquo;
+                if(i==pageNum)
+                    a(href=`/posts?page=${i}` style='color:red') #{i}
+                else
+                    a(href=`/posts?page=${i}`) #{i}
+            a(onclick=`nextPage(${pageNum});` style='cursor:hand') &raquo;
 
     else
         p(style='text-align: center') 비정상적인 접속입니다... 로그인해서 들어와주세요!

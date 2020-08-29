@@ -13,7 +13,7 @@ div(style='margin-left:3%; margin-right:3%')
                 img(style='height:50%; weight:50%' src=`/images/${img}`)
             p #{content}
     div(style='padding: 0 8px 8px; text-align:right')
-        button(type="button" class='btn btn-primary' onclick="location.href='/posts'") 게시판으로 돌아가기
+        button(type="button" class='btn btn-primary' onclick="back()") 게시판으로 돌아가기
     hr
     div(style='margin:0px; padding:0px')
         -var count = 0
@@ -34,6 +34,9 @@ div(style='margin-left:3%; margin-right:3%')
         button(type="button" class='btn btn-primary' onclick='comment()' style='text-align: right') 댓글 쓰기
 
 script.
+    function back(){
+        history.back();
+    }
     function profile(count, url, title, w, h){
         let tmp = document.getElementsByName('cuid')[count].innerText;
         var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;

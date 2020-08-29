@@ -12,18 +12,20 @@ function loginFunction(id,pwd,res,req){
                 res.json(responseData);
                 console.log('로그인 실패!');
             }else if(user.dataValues.password==pwd) {
-                req.session.user = user.id;
-                console.log(req.session.user);
                 responseData = {'result': 'ok'};
-                res.json(responseData);
                 console.log(user.dataValues.name + "님이 " + user.dataValues.id + "로 로그인했습니다.");
-                const payload = {id: id}
-                var token = jwt.sign(payload, 'secret');
-                console.log(token);
+                let token = jwt.sign({
+                    id: user.dataValues.id
+                }, 'secret',
+                    {
+                        expiresIn: '2h'
+                    })
+                res.cookie('user', token);
+                res.json(responseData);
             }
         })
         .catch(function(err){
-            console.log('오류발생!!')
+            console.log('login함수에서 오류발생!!')
         })
 }
 
