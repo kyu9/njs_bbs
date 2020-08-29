@@ -6,8 +6,9 @@ const multer = require('multer');
 const AWS = require('aws-sdk');
 let jwt = require('jsonwebtoken');
 
+
 AWS.config.update({
-    accessKeyId: 'AKIAZSCSHZ5FYML6ZV5M',
+    accessKeyId: process.env["AWS_KEYID "],
     secretAccessKey: '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',
     region: 'ap-northeast-2'
 })
