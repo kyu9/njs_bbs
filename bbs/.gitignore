@@ -1,4 +1,3 @@
 bbs/node_modules
-.idea
+bbs/.idea
 dist/*
-*.log
