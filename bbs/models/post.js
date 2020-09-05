@@ -1,7 +1,7 @@
 const moment = require('moment');
 
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('post', {
+    const Post = sequelize.define('post', {
         id:{
             type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
@@ -35,4 +35,6 @@ module.exports = (sequelize, DataTypes) => {
     },{
         timestamps: false,
     });
+
+    return Post
 };

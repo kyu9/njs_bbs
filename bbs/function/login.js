@@ -14,6 +14,7 @@ function loginFunction(id,pwd,res,req){
             }else if(user.dataValues.password==pwd) {
                 responseData = {'result': 'ok'};
                 console.log(user.dataValues.name + "님이 " + user.dataValues.id + "로 로그인했습니다.");
+                console.log('nodemon테스트가 성공했습니다...');
                 let token = jwt.sign({
                     id: user.dataValues.id
                 }, 'secret',

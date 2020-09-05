@@ -25,10 +25,8 @@ var fixPostRouter = require('./routes/p_fix');
 var ureceiveRouter = require('./routes/update_receive');
 var ureceiveFileRouter = require('./routes/update_receive_file');
 
-
 var sequelize = require('./models').sequelize;
 sequelize.sync();
-
 
 var app = express();
 
@@ -36,11 +34,13 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+    logger('dev'),
+    express.json(),
+    express.static(path.join(__dirname,'public')),
+    express.urlencoded({extended: true}),
+    cookieParser(),
+);
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
@@ -67,6 +67,18 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+app.use((err, req, res, next)=>{
+  let apiError = err
+  if(!err.status){
+    apiError = createError(err)
+  }
 
+  //에러는 로컬에서만 나오도록
+  res.locals.message = apiError.message
+  res.locals.error = process.env.NODE_ENV === 'development' ? apiError : {}
 
-module.exports = app;
+  return res.status(apiError.status)
+      .json({message: apiError.message})
+})
+
+module.exports = app
