@@ -24,58 +24,62 @@ script(src='//code.jquery.com/jquery-1.11.1.min.js')
                     .form-group
                         .col-md-12.control
                             div(style='border-top: 1px solid#888; padding-top:15px; font-size:85%')
-                                a(href='' onclick='enroll("enroll","회원가입",790,600)')
+                                a(href='' onclick='enroll(790, 600)')
                                     | 회원가입
     script.
-        document.getElementById('login_password').addEventListener('keydown', function (event) {
-            if (event.keyCode == 13) {
-                event.preventDefault();
-                document.getElementById('btn-login').click();
-            }
-        });
-        document.getElementById('login_id').addEventListener('keydown', function (event) {
-            if (event.keyCode == 13) {
-                event.preventDefault();
-                document.getElementById('btn-login').click();
-            }
-        });
         function login() {
-            sendLogin('/login_receive', login_id.value, login_password.value);
-        }
-        function enroll(url, title, w, h) {
-            var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
-            var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
-
-            var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-            var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-
-            var left = ((width / 2) - (w / 2)) + dualScreenLeft;
-            var top = ((height / 2) - (h / 2)) + dualScreenTop;
-            var newWindow = window.open(url, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-            if (window.focus) {
-                newWindow.focus();
+            let id = document.getElementById('login_id').value
+            let pwd = document.getElementById('login_password').value
+            if(id=='' || pwd==''){
+                alert('빈칸을 다 채워주세요!')
+                location.reload()
+            }else{
+                let data = {id: id, pwd: pwd}
+                myLogin('/login_receive', data)
             }
-        }
-        function sendLogin(url, id, pwd) {
-            var info = {'login_id': id, 'login_password': pwd};
-            info = JSON.stringify(info);
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', url, true);
-            xhr.setRequestHeader('Content-type', 'application/json');
-            xhr.send(info);
 
-            xhr.addEventListener('load', function () {
-                var result = JSON.parse(xhr.responseText);
-                if (result.result === 'fail') {
-                    alert('존재하지 않는 아이디이거나 비밀번호가 틀렸습니다!')
-                    return;
-                } else if(result.result === 'ok') {
-                    alert(id + '님 환영합니다!')
-                    window.location.href = "/";
-                    localStorage.setItem("login", 'true');
-                }
-            });
         }
+        function myLogin(url, data){
+            fetch(url,{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json;charset=utf-8',},
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .catch(error=>{
+                    console.error('Error: ', error)
+                })
+
+                .then(response=>{
+                    if(response.result =='ok'){
+                        alert('로그인에 성공하셨습니다!')
+                        document.location.href='/posts'
+                    }
+                    else if(response.result=='fail'){
+                        alert('올바르지 않은 비밀번호입니다!')
+                        location.reload()
+                    }
+                    else if(response.result=='none'){
+                        alert('유효하지 않은 아이디입니다!')
+                        location.reload()
+                    }
+                })
+
+
+        }
+        function enroll(w, h) {
+            const dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+            const dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+
+            const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+            const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+            const left = ((width / 2) - (w / 2)) + dualScreenLeft;
+            const top = ((height / 2) - (h / 2)) + dualScreenTop;
+            const newWindow = window.open('/enroll', '회원가입', 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+            newWindow.focus()
+        }
+
     #signupbox.mainbox.col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2(style='display:none; margin-top:50px')
         .panel.panel-info
             .panel-heading

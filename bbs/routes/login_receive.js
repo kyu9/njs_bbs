@@ -1,12 +1,13 @@
-let express = require('express')
-let router = express.Router()
-let login = require('../function/login');
+import express from 'express'
+import {login} from '../function/login'
+import {verifyToken} from '../middleware/jwt.middleware'
+const router = express.Router()
 
-router.post('/',function(req,res){
-    let id, pwd;
-    id = req.body.login_id;
-    pwd = req.body.login_password;
-    login.loginFunction(id,pwd,res,req);
-})
+router.route('/')
+    .post(
+        login,
+        verifyToken
+    )
 
-module.exports = router;
+module.exports = router
+

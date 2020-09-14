@@ -1,27 +1,26 @@
-let models = require('../models');
-function enrollValidation(info,res){
-    let responseData;
-    models.user.findAll({
-        where: {id: info.id}
-    })
-        .then(function(user){
-            if(user.length!=0){
-                responseData = {'result':'no','flag':'3'};
-                res.send(responseData);
-                return;
-            }
-            else{
-                responseData = {'result':'ok'};
-                res.send(responseData);
-                models.User.create({
-                    id: info.id,
-                    name: info.name,
-                    password: info.password,
-                }).catch(function(err){
-                    console.error(err);
-                });
-                return;
-            }
-        });
+import UserRepo from '../repositories/user.repository'
+
+const enrollValidation = async (req, res, next) => {
+    let responseData
+    const userRepo = new UserRepo()
+    try{
+        const user = await userRepo.find(req.body.id)
+        if(user) {
+            responseData = {'result': 'no'}
+            res.status(404).json(responseData)
+        }else{
+            await userRepo.enroll(req.body)
+            responseData = {'result':'ok'}
+            res.status(301).json(responseData)
+        }
+        next()
+    }catch (e){
+        responseData = {'result':'none'}
+        res.status(400).json(responseData)
+        next(e);
+    }
 }
-exports.enrollValidation = enrollValidation;
+
+export{
+    enrollValidation
+}

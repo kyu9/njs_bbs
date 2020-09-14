@@ -1,6 +1,6 @@
-let fn = require('../function/modify');
-let express = require('express');
-let router = express.Router();
+const fn = require('../function/modify');
+const express = require('express');
+const router = express.Router();
 
 router.post('/', function(req, res){
     fn.deletePost(req.body.id, res);

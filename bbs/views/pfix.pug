@@ -28,14 +28,14 @@ ons-page
 
 
 script.
-    let pid = document.getElementById('pid');
-    let title = document.getElementById('title');
-    let content = document.getElementById('content');
-    let url = '/update_receive';
-    let furl = '/update_receive_file';
-    let img = document.getElementById('img');
+    const pid = document.getElementById('pid');
+    const title = document.getElementById('title');
+    const content = document.getElementById('content');
+    const url = '/update_receive';
+    const furl = '/update_receive_file';
+    const img = document.getElementById('img');
     function aaaa() {
-        var con_test = confirm('게시물을 수정하시겠습니까??');
+        const con_test = confirm('게시물을 수정하시겠습니까??');
         if(con_test == true){
             if (img.files[0] == null) {
                 let data = {

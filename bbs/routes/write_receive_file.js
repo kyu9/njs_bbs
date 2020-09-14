@@ -1,20 +1,11 @@
-let express = require('express');
-let router = express.Router();
-let post = require('../function/posting');
-const multerS3 = require('multer-s3');
+import express from 'express'
+import {verifyToken} from '../middleware/jwt.middleware'
+import {wImg} from '../function/posting'
+const post = require('../function/posting')
+const router = express.Router()
 const multer = require('multer');
-const AWS = require('aws-sdk');
-let jwt = require('jsonwebtoken');
 
-
-AWS.config.update({
-    accessKeyId: 'AKIAZSCSHZ5FYML6ZV5M',
-    secretAccessKey: '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',
-    region: 'ap-northeast-2'
-})
-//local
-
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, '/Users/kyudoshim/mybbs/bbs/public/images/')
     },
@@ -22,10 +13,19 @@ var storage = multer.diskStorage({
         cb(null, file.originalname)
     }
 })
-var upload = multer({storage: storage})
+const upload = multer({storage: storage})
 
-//aws
 /*
+
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
+AWS.config.update({
+    accessKeyId: ,
+    secretAccessKey: ,
+    region:
+})
+
+
 let s3 = new AWS.S3();
 const upload = multer({
     storage: multerS3({
@@ -41,12 +41,21 @@ const upload = multer({
 
  */
 
-router.post('/', upload.single('img'), function(req, res){
+router.put('/',verifyToken, upload.single('img'), function(req, res){
+    console.log(res.locals.id)
+    wImg(req.body.title, req.body.content, res.locals.id, req.file.filename,function(result){res.json})
+} )
+//router.route('/').put(verifyToken, upload.single('img'), wImg,)
+
+/*
+router.put('/', upload.single('img'), function(req, res){
     let user = jwt.verify(req.cookies.user, 'secret');
     //aws
     //post.wImg(req.body.title, req.body.content, req.body.uid, req.body.password, req.file.location, function(result){res.json(result);})
     //local
     post.wImg(req.body.title, req.body.content, user.id, req.file.filename, function(result){res.json(result);})
 })
+
+ */
 
 module.exports = router;

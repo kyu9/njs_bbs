@@ -1,4 +1,4 @@
-let models = require('../models')
+const models = require('../models')
 
 function deletePost(id, res){
     let responseData

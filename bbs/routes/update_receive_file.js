@@ -1,6 +1,6 @@
-let express = require('express');
-let router = express.Router();
-let post = require('../function/modify');
+const express = require('express');
+const router = express.Router();
+const post = require('../function/modify');
 const multerS3 = require('multer-s3');
 const multer = require('multer');
 const AWS = require('aws-sdk');
@@ -11,7 +11,7 @@ AWS.config.update({
 })
 //local
 
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, '/Users/kyudoshim/mybbs/bbs/public/images/')
     },
@@ -19,7 +19,7 @@ var storage = multer.diskStorage({
         cb(null, file.originalname)
     }
 })
-var upload = multer({storage: storage})
+const upload = multer({storage: storage})
 
 
 router.post('/', upload.single('img'), function(req, res){

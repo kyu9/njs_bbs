@@ -1,33 +1,36 @@
-let models = require('../models');
-let jwt = require('jsonwebtoken');
+import UserRepo from '../repositories/user.repository'
+import jwt from 'jsonwebtoken'
 
-function loginFunction(id,pwd,res,req){
-    let responseData;
-    models.user.findOne({
-        where:{id: id}
-    })
-        .then(function(user){
-            if(user===null || user.dataValues.password!==pwd){
-                responseData = {'result' : 'fail'};
-                res.json(responseData);
-                console.log('로그인 실패!');
-            }else if(user.dataValues.password==pwd) {
-                responseData = {'result': 'ok'};
-                console.log(user.dataValues.name + "님이 " + user.dataValues.id + "로 로그인했습니다.");
-                console.log('nodemon테스트가 성공했습니다...');
-                let token = jwt.sign({
-                    id: user.dataValues.id
-                }, 'secret',
-                    {
-                        expiresIn: '2h'
-                    })
-                res.cookie('user', token);
-                res.json(responseData);
+const login = async (req, res, next) => {
+    let responseData
+    try{
+        const id = req.body.id
+        const pwd = req.body.pwd
+        const userRepo = new UserRepo()
+        if(id){
+            const user = await userRepo.find(id)
+            if(user.dataValues.password == pwd){
+                const payload = {id: user.dataValues.id, pwd: user.dataValues.password}
+                const token = jwt.sign(payload, 'secret', {
+                    expiresIn: '2h'
+                })
+                responseData = {'result':'ok'}
+                res.cookie('user', token)
+                res.status(301).json(responseData)
             }
-        })
-        .catch(function(err){
-            console.log('login함수에서 오류발생!!')
-        })
+            else{
+                responseData = {'result': 'fail'}
+                return res.status(302).json(responseData)
+            }
+        }else{
+            responseData = {'result': 'none'}
+            return res.status(400).json(responseData)
+        }
+    }catch (e){
+        next(e)
+    }
 }
 
-exports.loginFunction = loginFunction;
+export{
+    login
+}

@@ -38,26 +38,26 @@ script.
         history.back();
     }
     function profile(count, url, title, w, h){
-        let tmp = document.getElementsByName('cuid')[count].innerText;
-        var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
-        var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
-        var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-        var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-        var left = ((width / 2) - (w / 2)) + dualScreenLeft;
-        var top = ((height / 2) - (h / 2)) + dualScreenTop;
-        var myurl = url + '?uid=' + tmp
-        var newWindow = window.open(myurl, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+        const tmp = document.getElementsByName('cuid')[count].innerText;
+        const dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+        const dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+        const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+        const left = ((width / 2) - (w / 2)) + dualScreenLeft;
+        const top = ((height / 2) - (h / 2)) + dualScreenTop;
+        const myurl = url + '?uid=' + tmp
+        const newWindow = window.open(myurl, title, 'scrollbars=yes, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
         if (window.focus) {
             newWindow.focus();
         }
     }
 
     function getParam(sname) {
-        var params = location.search.substr(location.search.indexOf("?") + 1);
-        var sval = "";
+        let params = location.search.substr(location.search.indexOf("?") + 1);
+        let sval = "";
         params = params.split("&");
-        for (var i = 0; i < params.length; i++) {
-            var temp = params[i].split("=");
+        for (let i = 0; i < params.length; i++) {
+            let temp = params[i].split("=");
             if ([temp[0]] == sname) {
                 sval = temp[1];
             }
@@ -66,13 +66,13 @@ script.
     }
 
     function comment() {
-        var con_test = confirm('댓글을 작성하시겠습니까??');
+        const con_test = confirm('댓글을 작성하시겠습니까??');
         if(con_test == true){
             let data = {
                 pid: getParam('pid'),
                 content: document.getElementById('content').value,
             }
-            let response = fetch('/comment', {
+            fetch('/comment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'

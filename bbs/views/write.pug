@@ -12,26 +12,26 @@ ons-page
                 input#img(type='file', name='img')
 
         div(style='padding: 0 8px 8px')
-            button(type="button" class='btn btn-primary' onclick='aaaa()') 글 쓰기
+            button(type="button" class='btn btn-primary' onclick='writeFn()') 글 쓰기
         div(style='padding: 0 8px 8px')
             button(type='button' class='btn btn-primary' onclick="location.href='/posts'") 게시판으로 돌아가기
 
 script.
-    let title = document.getElementById('title');
-    let content = document.getElementById('content');
-    let url = '/write_receive';
-    let furl = '/write_receive_file';
-    let img = document.getElementById('img');
-    function aaaa() {
-       var con_test = confirm('게시물을 작성하시겠습니까??');
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    const url = '/write_receive';
+    const furl = '/write_receive_file';
+    const img = document.getElementById('img');
+    function writeFn() {
+        const con_test = confirm('게시물을 작성하시겠습니까??');
        if(con_test == true){
            if (img.files[0] == null) {
                let data = {
-                   'title': title.value,
-                   'content': content.value,
+                   'title': title,
+                   'content': content,
                }
                fetch(url, {
-                   method: 'POST',
+                   method: 'PUT',
                    headers: {'Content-Type': 'application/json;charset=utf-8'},
                    body: JSON.stringify(data),
                })
@@ -43,18 +43,15 @@ script.
                        if (response.result == 'ok') {
                            alert('게시물 작성완료!')
                            history.back()
-                       } else if (response.result == 'no') {
-                           alert('write과정에서 에러 발생!')
-                           return
                        }
                    })
            } else {
-               let formData = new FormData();
-               formData.append('title', title.value);
-               formData.append('content', content.value);
-               formData.append('img', img.files[0]);
+               const formData = new FormData()
+               formData.append('title', title)
+               formData.append('content', content)
+               formData.append('img', img.files[0])
                fetch(furl, {
-                   method: 'POST',
+                   method: 'PUT',
                    headers: {},
                    body: formData,
                })
@@ -66,9 +63,6 @@ script.
                        if (response.result == 'ok') {
                            alert('게시물 작성완료!')
                            history.back()
-                       } else if (response.result == 'no') {
-                           alert('비밀번호를 다시 입력하세요!')
-                           return
                        }
                    })
            }

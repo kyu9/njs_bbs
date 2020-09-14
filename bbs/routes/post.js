@@ -1,6 +1,6 @@
-var express = require('express')
-let router = express.Router()
-let models = require('../models')
+const express = require('express')
+const router = express.Router()
+const models = require('../models')
 
 router.get('/',function(req,res){
     models.post.findOne({
@@ -9,11 +9,11 @@ router.get('/',function(req,res){
         }
     })
         .then((result)=>{
-            var post = result.id;
-            var title = result.title;
-            var content = result.content;
-            var writer = result.uid;
-            var img = result.file;
+            const post = result.id;
+            const title = result.title;
+            const content = result.content;
+            const writer = result.uid;
+            const img = result.file;
             if(title!=null){
                 models.comment.findAll({
                     where:{

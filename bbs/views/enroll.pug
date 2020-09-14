@@ -45,36 +45,43 @@ head
                                 i.fa.fa-lock.fa-lg(aria-hidden='true')
                             input#confirm.form-control(type='password', name='confirm', placeholder='Confirm your Password')
                 .form-group
-                    button.btn.btn-primary.btn-lg.btn-block.login-button(type='button' onclick='enroll()') 가입하기
+                    button.btn.btn-primary.btn-lg.btn-block.login-button(type='button' onclick='enroll_receive()') 가입하기
 script.
-    function enroll(){
-        var id = document.getElementById('id').value;
-        var name = document.getElementById('name').value;
-        var password = document.getElementById('password').value;
-        var confirm = document.getElementById('confirm').value;
+    function enroll_receive(){
+        const id = document.getElementById('id').value;
+        const name = document.getElementById('name').value;
+        const password = document.getElementById('password').value;
+        const confirm = document.getElementById('confirm').value;
 
-        var data = {'id':id, 'name':name, 'password':password,'confirm':confirm};
-        data = JSON.stringify(data);
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST','/enroll_receive',true);
-        xhr.setRequestHeader('Content-type','application/json');
-        xhr.send(data);
+        let data = {'id':id, 'name':name, 'password':password}
+        if(password == confirm){
+            fetch('/enroll_receive', {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json;charset=utf-8',},
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .catch(error => {
+                    console.error('Error: ', error)
+                })
+                .then(response => {
+                    if (response.result != 'ok') {
+                        if (response.result.flag == '1')
+                            alert('모든 정보를 입력해주세요')
+                        else if (response.result.flag == '2')
+                            alert('비밀번호가 일치하지 않습니다.')
+                        else if (response.result.flag == '3')
+                            alert('이미 존재하는 아이디 입니다.')
+                    } else {
+                        alert('회원가입 성공!')
+                        window.close()
+                    }
+                })
+        }else{
+            alert('비밀번호가 똑같아야합니다!')
+            location.reload()
+        }
 
-        xhr.addEventListener('load',function(){
-            var result = JSON.parse(xhr.responseText);
-            if(result.result !='ok'){
-                if(result.flag=='1')
-                    alert('모든 정보를 입력해주세요.');
-                else if(result.flag=='2')
-                    alert('비밀번호가 일치하지 않습니다.');
-                else if(result.flag=='3')
-                    alert('이미 존재하는 아이디 입니다.');
-            }
-            else{
-                alert('회원가입 성공');
-                window.close();
-            }
-        });
+
     }
-script(type='text/javascript', src='stylesheets/js/bootstrap.js')
 

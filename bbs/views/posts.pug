@@ -39,7 +39,7 @@ head
         -let curpage = Math.ceil(count/7);
         ul(class="pagination")
             a(onclick=`prePage(${pageNum});` style='cursor:hand') &laquo;
-            -for(i=1; i<=curpage; i++)
+            -for(let i=1; i<=curpage; i++)
                 if(i==pageNum)
                     a(href=`/posts?page=${i}` style='color:red') #{i}
                 else
@@ -60,7 +60,7 @@ script.
         document.location.href='post?pid='+id;
     }
     function logout(){
-        var con_test = confirm('로그아웃 하시겠습니까? (로그인하셔야 게시판 이용이 가능합니다!)');
+        const con_test = confirm('로그아웃 하시겠습니까? (로그인하셔야 게시판 이용이 가능합니다!)');
         if(con_test == true){
             document.location.href='/logout';
         }else{

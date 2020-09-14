@@ -1,11 +1,13 @@
-let express = require('express');
-let router = express.Router();
-let validation = require('../function/enrollValidation')
+import express from 'express'
+import {enrollValidation} from "../function/enrollValidation"
+import {verifyToken} from '../middleware/jwt.middleware'
+const router = express.Router()
 
-router.post('/',function(req,res){
-    console.log(req.body);
-    var info = req.body;
-    validation.enrollValidation(info,res);
-})
+router.route('/')
+    .put(
+        enrollValidation,
+        verifyToken
+    )
 
 module.exports = router
+

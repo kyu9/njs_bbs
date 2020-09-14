@@ -1,7 +1,7 @@
-let express = require('express');
-let router = express.Router();
-let post = require('../function/posting')
-let jwt = require('jsonwebtoken')
+const express = require('express');
+const router = express.Router();
+const post = require('../function/posting')
+const jwt = require('jsonwebtoken')
 
 router.post('/', function(req, res){
     let user = jwt.verify(req.cookies.user, 'secret');
