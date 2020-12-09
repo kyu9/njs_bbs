@@ -4,11 +4,6 @@ const post = require('../function/modify');
 const multerS3 = require('multer-s3');
 const multer = require('multer');
 const AWS = require('aws-sdk');
-AWS.config.update({
-    accessKeyId: 'AKIAZSCSHZ5FYML6ZV5M',
-    secretAccessKey: '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',
-    region: 'ap-northeast-2'
-})
 //local
 
 const storage = multer.diskStorage({
